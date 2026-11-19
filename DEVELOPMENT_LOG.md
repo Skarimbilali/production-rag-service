@@ -33,3 +33,8 @@ Branch: development
 - Guardrails and frontend
 - Automated tests and evaluation
 - Full assignment documentation
+
+## 2026-11-19 - Vector Store Testing
+- ChromaDB insert, search and delete: 3 tests passed.
+- pytest.ini configuration error: fixed.
+- Final test execution: 25.20 seconds, no warnings.
