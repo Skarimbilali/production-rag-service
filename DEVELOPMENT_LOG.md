@@ -38,3 +38,13 @@ Branch: development
 - ChromaDB insert, search and delete: 3 tests passed.
 - pytest.ini configuration error: fixed.
 - Final test execution: 25.20 seconds, no warnings.
+
+## Document API Integration Tests
+Branch: development
+PDF upload: 201 Created - PASS
+Document chunks stored: 7
+Duplicate upload: 409 Conflict - PASS
+Document listing: 200 OK - PASS
+Document deletion: 204 No Content - PASS
+Listing after deletion: 200 OK, empty list - PASS
+Pending: Verify deleted content cannot be retrieved.
