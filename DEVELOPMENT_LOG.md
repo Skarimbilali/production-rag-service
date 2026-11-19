@@ -48,3 +48,29 @@ Document listing: 200 OK - PASS
 Document deletion: 204 No Content - PASS
 Listing after deletion: 200 OK, empty list - PASS
 Pending: Verify deleted content cannot be retrieved.
+
+## 2026-11-20 - Document APIs and Retrieval
+
+Branch: development
+
+Completed:
+- PDF upload API: 201 Created
+- Duplicate detection: 409 Conflict
+- Document listing: 200 OK
+- Document deletion: 204 No Content
+- Listing after deletion: Empty
+- RetrievalService implementation
+- English retrieval smoke test: PASS
+- Roman Urdu retrieval smoke test: PASS
+- Similarity score inspection: PASS
+
+Testing:
+- 2 retrieval tests passed in 19.95 seconds
+
+Pending:
+- Stronger isolated retrieval tests
+- LLM integration
+- Grounded answers and citations
+- Guardrails
+- Frontend
+- Evaluation and documentation
