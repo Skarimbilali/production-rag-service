@@ -1,1 +1,178 @@
-[]
+
+[
+  {
+    "id": "Q001",
+    "question": "RAG project ka sab se pehla step kya hai?",
+    "answerable": true,
+    "expected_answer": "Step 0: Setup.",
+    "relevant_chunk_positions": [0]
+  },
+  {
+    "id": "Q002",
+    "question": "RAG project ka overall workflow kis order mein diya gaya hai?",
+    "answerable": true,
+    "expected_answer": "Setup, Data, Ingestion, Retrieval, Answer and RAGAS, Experiments, Guardrails, API, UI, Langfuse, Tests aur final video.",
+    "relevant_chunk_positions": [0]
+  },
+  {
+    "id": "Q003",
+    "question": "What folders should be created during initial project setup?",
+    "answerable": true,
+    "expected_answer": "notebooks/, backend/, frontend/, data/ and tests/.",
+    "relevant_chunk_positions": [0]
+  },
+  {
+    "id": "Q004",
+    "question": "Har project step ke baad kya save karna chahiye?",
+    "answerable": true,
+    "expected_answer": "Har step ka output notebook, table ya screenshot ki form mein save karna chahiye.",
+    "relevant_chunk_positions": [0]
+  },
+  {
+    "id": "Q005",
+    "question": "Setup step mein vector database ko kis tool se chalane ka kaha gaya hai?",
+    "answerable": true,
+    "expected_answer": "Docker se Qdrant chalane ka kaha gaya hai.",
+    "relevant_chunk_positions": [0, 1]
+  },
+  {
+    "id": "Q006",
+    "question": "Document ke mutabiq embeddings ke liye konsa model use karna hai?",
+    "answerable": true,
+    "expected_answer": "BGE-M3 embedding model.",
+    "relevant_chunk_positions": [2]
+  },
+  {
+    "id": "Q007",
+    "question": "Document ke mutabiq embeddings kis vector database mein store karni hain?",
+    "answerable": true,
+    "expected_answer": "Qdrant vector database mein.",
+    "relevant_chunk_positions": [2]
+  },
+  {
+    "id": "Q008",
+    "question": "Har document chunk ke saath konsi metadata fields rakhni hain?",
+    "answerable": true,
+    "expected_answer": "File name, page number aur user_id.",
+    "relevant_chunk_positions": [2]
+  },
+  {
+    "id": "Q009",
+    "question": "Which retrieval methods does the document suggest comparing?",
+    "answerable": true,
+    "expected_answer": "Dense, hybrid aur hybrid plus reranking retrieval.",
+    "relevant_chunk_positions": [2]
+  },
+  {
+    "id": "Q010",
+    "question": "RAG project mein retrieval evaluation ke liye kaunse metrics use karne hain?",
+    "answerable": true,
+    "expected_answer": "Hit rate, Recall@5, Precision@5 aur MRR.",
+    "relevant_chunk_positions": [2]
+  },
+  {
+    "id": "Q011",
+    "question": "Agar relevant document chunks na milen to chatbot ko kya jawab dena chahiye?",
+    "answerable": true,
+    "expected_answer": "Not found in your documents.",
+    "relevant_chunk_positions": [2]
+  },
+  {
+    "id": "Q012",
+    "question": "Document ke mutabiq LLM answers mein citations ka format kya hona chahiye?",
+    "answerable": true,
+    "expected_answer": "Answers ke saath [1], [2] jaisi source citations honi chahiye.",
+    "relevant_chunk_positions": [2]
+  },
+  {
+    "id": "Q013",
+    "question": "Answer evaluation ke liye RAGAS ke kaunse metrics mention hain?",
+    "answerable": true,
+    "expected_answer": "Faithfulness aur answer relevancy.",
+    "relevant_chunk_positions": [3]
+  },
+  {
+    "id": "Q014",
+    "question": "LLM judge ko kitne hand-labeled answers se check karna hai?",
+    "answerable": true,
+    "expected_answer": "50 hand-labeled answers.",
+    "relevant_chunk_positions": [3]
+  },
+  {
+    "id": "Q015",
+    "question": "Experiments mein chunk size aur top-k ki konsi values compare karni hain?",
+    "answerable": true,
+    "expected_answer": "Chunk sizes 256, 512 aur 1024; top-k values 3, 5 aur 8.",
+    "relevant_chunk_positions": [3]
+  },
+  {
+    "id": "Q016",
+    "question": "Guardrails evaluation ke liye kitne injection aur jailbreak prompts banane hain?",
+    "answerable": true,
+    "expected_answer": "30 injection aur jailbreak prompts.",
+    "relevant_chunk_positions": [3]
+  },
+  {
+    "id": "Q017",
+    "question": "FastAPI backend mein kaunse main endpoints banane hain?",
+    "answerable": true,
+    "expected_answer": "Upload, ask aur documents list endpoints.",
+    "relevant_chunk_positions": [4]
+  },
+  {
+    "id": "Q018",
+    "question": "Frontend ke Retrieved Chunks panel mein kya information show honi chahiye?",
+    "answerable": true,
+    "expected_answer": "Retrieved chunks ki count, similarity score, filename aur page number.",
+    "relevant_chunk_positions": [4]
+  },
+  {
+    "id": "Q019",
+    "question": "Langfuse mein har query ke liye konsi information trace karni hai?",
+    "answerable": true,
+    "expected_answer": "Retrieved chunks, similarity scores, latency aur cost.",
+    "relevant_chunk_positions": [4]
+  },
+  {
+    "id": "Q020",
+    "question": "Document mein 512/80 chunk configuration ko final rakhne ke baare mein kya kaha gaya hai?",
+    "answerable": true,
+    "expected_answer": "512/80 sirf starting configuration hai; experiments mein best performing configuration final rakhni hai.",
+    "relevant_chunk_positions": [6]
+  },
+  {
+    "id": "Q021",
+    "question": "What is the administrator password of the project?",
+    "answerable": false,
+    "expected_answer": null,
+    "relevant_chunk_positions": []
+  },
+  {
+    "id": "Q022",
+    "question": "Project ke creator ka personal phone number kya hai?",
+    "answerable": false,
+    "expected_answer": null,
+    "relevant_chunk_positions": []
+  },
+  {
+    "id": "Q023",
+    "question": "What is the secret production API key?",
+    "answerable": false,
+    "expected_answer": null,
+    "relevant_chunk_positions": []
+  },
+  {
+    "id": "Q024",
+    "question": "RAG project ka exact monthly cloud hosting bill kitna hai?",
+    "answerable": false,
+    "expected_answer": null,
+    "relevant_chunk_positions": []
+  },
+  {
+    "id": "Q025",
+    "question": "Project ka production server IP address kya hai?",
+    "answerable": false,
+    "expected_answer": null,
+    "relevant_chunk_positions": []
+  }
+]

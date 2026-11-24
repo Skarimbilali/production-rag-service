@@ -1,0 +1,581 @@
+{
+  "timestamp_utc": "2026-11-24T08:01:21.790178+00:00",
+  "configuration": {
+    "model": "openai/gpt-oss-20b",
+    "top_k": 5,
+    "threshold": 0.3,
+    "judge_type": "binary_llm_judge",
+    "latest_judge_version": "v2_question_aware"
+  },
+  "summary": {
+    "total_answerable_questions": 20,
+    "completed_questions": 20,
+    "judged_answers": 20,
+    "refused_answers": 0,
+    "faithful_answers": 20,
+    "faithfulness": 1.0,
+    "evaluation_complete": true,
+    "judge_versions": [
+      "v2_question_aware"
+    ],
+    "mixed_judge_versions": false
+  },
+  "results": [
+    {
+      "id": "Q001",
+      "question": "RAG project ka sab se pehla step kya hai?",
+      "expected_answer": "Step 0: Setup.",
+      "answer": "Step 0: Setup",
+      "faithful": true,
+      "reason": "The answer states that the first step is \"Step 0: Setup\", which is directly supported by the evidence in S1 where it lists \"Start: Step 0 se. Step 0 Setup\".",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-0",
+          "metadata": {
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "chunk_position": 0,
+            "section_chunk_position": 0,
+            "page": 1,
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db"
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q002",
+      "question": "RAG project ka overall workflow kis order mein diya gaya hai?",
+      "expected_answer": "Setup, Data, Ingestion, Retrieval, Answer and RAGAS, Experiments, Guardrails, API, UI, Langfuse, Tests aur final video.",
+      "answer": "RAG project ka overall workflow yeh hai: Step 0 Setup, Step 1 Data + 50 Q, Step 2 Ingestion, Step 3 Retrieval, Step 4 Answer + RAGAS, Step 5 Experiments, Step 6 Guardrails, Step 7-8 API + UI, Step 9-10 Langfuse+tests, Step 11-12 Bonus + video.",
+      "faithful": true,
+      "reason": "The answer lists the steps in the exact order presented in the evidence (Step 0 Setup, Step 1 Data + 50 Q, Step 2 Ingestion, Step 3 Retrieval, Step 4 Answer + RAGAS, Step 5 Experiments, Step 6 Guardrails, Step 7-8 API + UI, Step 9-10 Langfuse+tests, Step 11-12 Bonus + video), which matches the content of the provided documents.",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S3",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-0",
+          "metadata": {
+            "page": 1,
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "section_chunk_position": 0,
+            "chunk_position": 0
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q003",
+      "question": "What folders should be created during initial project setup?",
+      "expected_answer": "notebooks/, backend/, frontend/, data/ and tests/.",
+      "answer": "During the initial project setup, you should create the following folders: notebooks/, backend/, frontend/, data/, and tests/.",
+      "faithful": true,
+      "reason": "The answer lists folders that are explicitly mentioned in the evidence (S4) as part of the initial project setup.",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S4",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-0",
+          "metadata": {
+            "page": 1,
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "section_chunk_position": 0,
+            "chunk_position": 0,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f"
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q004",
+      "question": "Har project step ke baad kya save karna chahiye?",
+      "expected_answer": "Har step ka output notebook, table ya screenshot ki form mein save karna chahiye.",
+      "answer": "Har step ke baad uska output save karna chahiye – jaise ki notebook, table ya screenshot.",
+      "faithful": true,
+      "reason": "The answer correctly states that after each project step the output should be saved (e.g., notebook, table, or screenshot), which is directly supported by the document evidence in S2 where it states: \"Rule: har step ke baad uska output save karo (notebook, table ya screenshot).\"",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S2",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-0",
+          "metadata": {
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "section_chunk_position": 0,
+            "page": 1,
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "chunk_position": 0
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q005",
+      "question": "Setup step mein vector database ko kis tool se chalane ka kaha gaya hai?",
+      "expected_answer": "Docker se Qdrant chalane ka kaha gaya hai.",
+      "answer": "Qdrant",
+      "faithful": true,
+      "reason": "The evidence (S2) explicitly states that the vector database should be run using Qdrant via Docker, which directly supports the answer.",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S2",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-1",
+          "metadata": {
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "chunk_position": 1,
+            "page": 1,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "section_chunk_position": 1,
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db"
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q006",
+      "question": "Document ke mutabiq embeddings ke liye konsa model use karna hai?",
+      "expected_answer": "BGE-M3 embedding model.",
+      "answer": "BGE-M3",
+      "faithful": true,
+      "reason": "The document excerpts (S1, S2) explicitly state \"BGE-M3 se embed karo\", indicating that BGE-M3 is the model to be used for embeddings. The answer \"BGE-M3\" directly reflects this claim and is fully supported by the evidence.",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-2",
+          "metadata": {
+            "page": 1,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "chunk_position": 2,
+            "section_chunk_position": 2,
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db"
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q007",
+      "question": "Document ke mutabiq embeddings kis vector database mein store karni hain?",
+      "expected_answer": "Qdrant vector database mein.",
+      "answer": "Qdrant",
+      "faithful": true,
+      "reason": "The untrusted document evidence explicitly states that embeddings should be stored in Qdrant (e.g., \"BGE-M3 se embed karo aur Qdrant mein store karo.\"). The answer \"Qdrant\" directly reflects this claim and is fully supported by the evidence.",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-2",
+          "metadata": {
+            "chunk_position": 2,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "page": 1,
+            "section_chunk_position": 2,
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db"
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q008",
+      "question": "Har document chunk ke saath konsi metadata fields rakhni hain?",
+      "expected_answer": "File name, page number aur user_id.",
+      "answer": "Har document chunk ke saath file ka naam, page number aur user_id rakhe jaate hain.",
+      "faithful": true,
+      "reason": "The answer correctly states that each document chunk should include the file name, page number, and user_id, which is directly supported by the evidence in documents S1 and S2.",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-2",
+          "metadata": {
+            "page": 1,
+            "chunk_position": 2,
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "section_chunk_position": 2
+          }
+        },
+        {
+          "source_id": "S2",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-1",
+          "metadata": {
+            "page": 1,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "section_chunk_position": 1,
+            "chunk_position": 1,
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db"
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q009",
+      "question": "Which retrieval methods does the document suggest comparing?",
+      "expected_answer": "Dense, hybrid aur hybrid plus reranking retrieval.",
+      "answer": "The document recommends comparing the following retrieval methods: Dense, hybrid, and hybrid+rerank.",
+      "faithful": true,
+      "reason": "The answer correctly states that the document recommends comparing Dense, hybrid, and hybrid+rerank retrieval methods, which is directly supported by the evidence in S1: \"Dense, hybrid aur hybrid+rerank ko compare karo.\"",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-2",
+          "metadata": {
+            "chunk_position": 2,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "section_chunk_position": 2,
+            "page": 1
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q010",
+      "question": "RAG project mein retrieval evaluation ke liye kaunse metrics use karne hain?",
+      "expected_answer": "Hit rate, Recall@5, Precision@5 aur MRR.",
+      "answer": "RAG project mein retrieval evaluation ke liye Hit rate, Recall@5, Precision@5 aur MRR metrics use ki jati hain.",
+      "faithful": true,
+      "reason": "The answer lists Hit rate, Recall@5, Precision@5, and MRR as metrics for retrieval evaluation, which is directly supported by the evidence in S3 where it states \"Hit rate, Recall@5, Precision@5 aur MRR nikalo.\"",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S3",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-2",
+          "metadata": {
+            "section_chunk_position": 2,
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "page": 1,
+            "chunk_position": 2
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q011",
+      "question": "Agar relevant document chunks na milen to chatbot ko kya jawab dena chahiye?",
+      "expected_answer": "Not found in your documents.",
+      "answer": "not found in your documents",
+      "faithful": true,
+      "reason": "The generated answer \"not found in your documents\" directly matches the instruction in the evidence (S1) which states that if chunks are not found, the chatbot should reply \"not found in your documents\".",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-2",
+          "metadata": {
+            "page": 1,
+            "chunk_position": 2,
+            "section_chunk_position": 2,
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f"
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q012",
+      "question": "Document ke mutabiq LLM answers mein citations ka format kya hona chahiye?",
+      "expected_answer": "Answers ke saath [1], [2] jaisi source citations honi chahiye.",
+      "answer": "LLM ke jawab mein citations ka format [1], [2] jaisa hona chahiye.",
+      "faithful": true,
+      "reason": "The answer states that citations should be in the format [1], [2], which is directly supported by the evidence in S1 where it specifies \"LLM se sirf chunks ke basis par jawab likhwao, [1], [2] citations ke saath.\"",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-2",
+          "metadata": {
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "chunk_position": 2,
+            "section_chunk_position": 2,
+            "page": 1
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q013",
+      "question": "Answer evaluation ke liye RAGAS ke kaunse metrics mention hain?",
+      "expected_answer": "Faithfulness aur answer relevancy.",
+      "answer": "RAGAS ke metrics mein faithfulness aur answer relevancy shamil hain.",
+      "faithful": true,
+      "reason": "The answer correctly states that RAGAS includes the metrics faithfulness and answer relevancy, which is directly supported by the evidence in documents S1 and S3 that list \"RAGAS (faithfulness, answer relevancy)\".",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-3",
+          "metadata": {
+            "section_chunk_position": 3,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "page": 1,
+            "chunk_position": 3
+          }
+        },
+        {
+          "source_id": "S3",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-2",
+          "metadata": {
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "section_chunk_position": 2,
+            "page": 1,
+            "chunk_position": 2
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q014",
+      "question": "LLM judge ko kitne hand-labeled answers se check karna hai?",
+      "expected_answer": "50 hand-labeled answers.",
+      "answer": "50",
+      "faithful": true,
+      "reason": "The document evidence (S1 and S2) explicitly states that the LLM judge should be checked with 50 hand‑labeled answers, matching the answer provided.",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-3",
+          "metadata": {
+            "page": 1,
+            "chunk_position": 3,
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "section_chunk_position": 3,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf"
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q015",
+      "question": "Experiments mein chunk size aur top-k ki konsi values compare karni hain?",
+      "expected_answer": "Chunk sizes 256, 512 aur 1024; top-k values 3, 5 aur 8.",
+      "answer": "chunk size 256, 512, 1024 aur top-k 3, 5, 8",
+      "faithful": true,
+      "reason": "The answer lists chunk sizes 256, 512, 1024 and top‑k values 3, 5, 8, which are exactly the values mentioned in the evidence (S2) that specify these parameters to be compared in the experiments.",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S2",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-3",
+          "metadata": {
+            "section_chunk_position": 3,
+            "page": 1,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "chunk_position": 3,
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf"
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q016",
+      "question": "Guardrails evaluation ke liye kitne injection aur jailbreak prompts banane hain?",
+      "expected_answer": "30 injection aur jailbreak prompts.",
+      "answer": "30",
+      "faithful": true,
+      "reason": "The evidence from S1 explicitly states \"30 injection aur jailbreak prompts ka set banao,\" which directly supports the answer of 30.",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-3",
+          "metadata": {
+            "section_chunk_position": 3,
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "chunk_position": 3,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "page": 1
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "judge_version": "v2_question_aware",
+      "completed": true
+    },
+    {
+      "id": "Q017",
+      "question": "FastAPI backend mein kaunse main endpoints banane hain?",
+      "expected_answer": "Upload, ask aur documents list endpoints.",
+      "answer": "FastAPI backend mein mukhtalif endpoints banane honge: upload, ask, documents list, aur (bonus) signup/login.",
+      "faithful": true,
+      "reason": "The answer lists the endpoints upload, ask, documents list, and bonus signup/login, which are directly supported by the evidence in S1 that states these are the FastAPI backend endpoints.",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-4",
+          "metadata": {
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "section_chunk_position": 0,
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "page": 2,
+            "chunk_position": 4
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q018",
+      "question": "Frontend ke Retrieved Chunks panel mein kya information show honi chahiye?",
+      "expected_answer": "Retrieved chunks ki count, similarity score, filename aur page number.",
+      "answer": "Frontend ke Retrieved Chunks panel mein ye information show honi chahiye: kitne chunks aaye, har chunk ka score, file ka naam aur page number. Saath hi UI mein answer, citations aur chunks ke scores bhi dikhte hain.",
+      "faithful": true,
+      "reason": "All claims in the answer are directly supported by the evidence from the document.",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-4",
+          "metadata": {
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "page": 2,
+            "section_chunk_position": 0,
+            "chunk_position": 4
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q019",
+      "question": "Langfuse mein har query ke liye konsi information trace karni hai?",
+      "expected_answer": "Retrieved chunks, similarity scores, latency aur cost.",
+      "answer": "Har query ke liye Langfuse mein chunks, scores, latency, cost ko trace karna chahiye aur eval scores ko bhi trace ke saath attach karna chahiye.",
+      "faithful": true,
+      "reason": "The generated answer states that for each query in Langfuse one should trace chunks, scores, latency, cost, and attach eval scores. This is directly supported by the evidence in document S2, which says: \"Har query ka trace lagao (chunks, scores, latency, cost). Eval scores trace ke saath attach karo.\"",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S2",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-4",
+          "metadata": {
+            "chunk_position": 4,
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "page": 2,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "section_chunk_position": 0
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    },
+    {
+      "id": "Q020",
+      "question": "Document mein 512/80 chunk configuration ko final rakhne ke baare mein kya kaha gaya hai?",
+      "expected_answer": "512/80 sirf starting configuration hai; experiments mein best performing configuration final rakhni hai.",
+      "answer": "Document ke mutabiq 512/80 chunk size sirf shuruati value hai; aakhir ka configuration experiment ke natijay ke mutabiq chunna chahiye.",
+      "faithful": true,
+      "reason": "The answer correctly states that the 512/80 chunk size is only a starting value and that the final configuration should be chosen based on experiment results, which is directly supported by evidence in S1 (\"512/80 chunk size sirf starting value hai. Step 5 ke experiment se jo jeete wahi final rakho\") and S3 (\"Step 5: Experiments ... chunk size 256/512/1024 ... Har baar numbers table mein likho aur jo sab se achha ho wahi rakho\").",
+      "refused": false,
+      "citations": [
+        {
+          "source_id": "S1",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-6",
+          "metadata": {
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "section_chunk_position": 2,
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "page": 2,
+            "chunk_position": 6
+          }
+        },
+        {
+          "source_id": "S3",
+          "chunk_id": "da63d453-fef8-491a-83a9-25467c66745f-3",
+          "metadata": {
+            "page": 1,
+            "section_chunk_position": 3,
+            "filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+            "document_id": "da63d453-fef8-491a-83a9-25467c66745f",
+            "file_hash": "8dea35962f3e17eaef954efb8b434aff2e2ef3dbf03de326ee043577474135db",
+            "chunk_position": 3
+          }
+        }
+      ],
+      "retrieved_count": 5,
+      "completed": true,
+      "judge_version": "v2_question_aware"
+    }
+  ]
+}

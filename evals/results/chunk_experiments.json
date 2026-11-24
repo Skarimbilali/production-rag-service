@@ -1,0 +1,2847 @@
+{
+  "source_pdf": "D:\\Agentic-Ai-Course\\RAG_Project_Steps_Roman_Urdu.pdf",
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "label_method": "provisional_evidence_phrases",
+  "summary": [
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "total_chunks": 21,
+      "total_questions": 20,
+      "labelled_questions": 20,
+      "unlabelled_questions": [],
+      "hit_at_k": 0.75,
+      "recall_at_k": 0.5708333333333333,
+      "mrr_at_k": 0.7
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "total_chunks": 21,
+      "total_questions": 20,
+      "labelled_questions": 20,
+      "unlabelled_questions": [],
+      "hit_at_k": 0.85,
+      "recall_at_k": 0.6458333333333333,
+      "mrr_at_k": 0.7224999999999999
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "total_chunks": 11,
+      "total_questions": 20,
+      "labelled_questions": 20,
+      "unlabelled_questions": [],
+      "hit_at_k": 0.8,
+      "recall_at_k": 0.65,
+      "mrr_at_k": 0.6833333333333333
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "total_chunks": 11,
+      "total_questions": 20,
+      "labelled_questions": 20,
+      "unlabelled_questions": [],
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.8625,
+      "mrr_at_k": 0.7283333333333333
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "total_chunks": 7,
+      "total_questions": 20,
+      "labelled_questions": 20,
+      "unlabelled_questions": [],
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.925,
+      "mrr_at_k": 0.8583333333333332
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "total_chunks": 7,
+      "total_questions": 20,
+      "labelled_questions": 20,
+      "unlabelled_questions": [],
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.95,
+      "mrr_at_k": 0.8583333333333332
+    }
+  ],
+  "questions": [
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q001",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-1",
+        "chunk-0",
+        "chunk-13"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 0.5
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q002",
+      "relevant_chunk_count": 4,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-1",
+        "chunk-11"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.25,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q003",
+      "relevant_chunk_count": 4,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-14",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q004",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-1",
+        "chunk-0"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q005",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-11",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q006",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-2",
+        "chunk-18"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q007",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-2",
+        "chunk-15"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q008",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-14",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q009",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-7",
+        "chunk-15"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.5
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q010",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-1",
+        "chunk-0",
+        "chunk-9"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q011",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-14",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q012",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-8",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q013",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-15",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q014",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-11",
+        "chunk-10"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q015",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-20",
+        "chunk-15"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q016",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-12",
+        "chunk-11",
+        "chunk-19"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q017",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-13",
+        "chunk-14",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q018",
+      "relevant_chunk_count": 3,
+      "retrieved_ids": [
+        "chunk-14",
+        "chunk-15",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.6666666666666666,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q019",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-15",
+        "chunk-16",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 3,
+      "question_id": "Q020",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-20",
+        "chunk-14",
+        "chunk-5"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q001",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-1",
+        "chunk-0",
+        "chunk-13",
+        "chunk-19",
+        "chunk-11"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 0.5
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q002",
+      "relevant_chunk_count": 4,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-1",
+        "chunk-11",
+        "chunk-9",
+        "chunk-19"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 0.25,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q003",
+      "relevant_chunk_count": 4,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-14",
+        "chunk-1",
+        "chunk-3",
+        "chunk-18"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q004",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-1",
+        "chunk-0",
+        "chunk-14",
+        "chunk-10"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q005",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-11",
+        "chunk-1",
+        "chunk-5",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q006",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-2",
+        "chunk-18",
+        "chunk-11",
+        "chunk-9"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        1,
+        1
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q007",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-2",
+        "chunk-15",
+        "chunk-5",
+        "chunk-6"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.2
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q008",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-14",
+        "chunk-4",
+        "chunk-15",
+        "chunk-5"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        2,
+        1
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q009",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-7",
+        "chunk-15",
+        "chunk-14",
+        "chunk-8"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.5
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q010",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-1",
+        "chunk-0",
+        "chunk-9",
+        "chunk-7",
+        "chunk-15"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 0.25
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q011",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-14",
+        "chunk-4",
+        "chunk-5",
+        "chunk-8"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q012",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-8",
+        "chunk-4",
+        "chunk-15",
+        "chunk-5"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q013",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-15",
+        "chunk-1",
+        "chunk-7",
+        "chunk-14"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q014",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-9",
+        "chunk-11",
+        "chunk-10",
+        "chunk-8",
+        "chunk-15"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q015",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-20",
+        "chunk-15",
+        "chunk-11",
+        "chunk-14"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        2,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q016",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-12",
+        "chunk-11",
+        "chunk-19",
+        "chunk-1",
+        "chunk-18"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q017",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-13",
+        "chunk-14",
+        "chunk-3",
+        "chunk-1",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q018",
+      "relevant_chunk_count": 3,
+      "retrieved_ids": [
+        "chunk-14",
+        "chunk-15",
+        "chunk-1",
+        "chunk-9",
+        "chunk-2"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.6666666666666666,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q019",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-15",
+        "chunk-16",
+        "chunk-1",
+        "chunk-4",
+        "chunk-9"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "A",
+      "chunk_size": 256,
+      "overlap": 50,
+      "top_k": 5,
+      "question_id": "Q020",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-20",
+        "chunk-14",
+        "chunk-5",
+        "chunk-4",
+        "chunk-7"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q001",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-7",
+        "chunk-10"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q002",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-7",
+        "chunk-10"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q003",
+      "relevant_chunk_count": 4,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-1",
+        "chunk-6"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q004",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-10",
+        "chunk-6"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q005",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-6",
+        "chunk-0"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q006",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-6",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q007",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-3",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 0.5
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q008",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-7",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.3333333333333333
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q009",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-8",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q010",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-7",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 0,
+      "recall": 0.0,
+      "rr": 0.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q011",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-7",
+        "chunk-6",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.3333333333333333
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q012",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-10",
+        "chunk-6"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q013",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-7",
+        "chunk-0"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q014",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-6",
+        "chunk-8"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q015",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-5",
+        "chunk-6"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.5
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q016",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-5",
+        "chunk-6",
+        "chunk-10"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q017",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-7",
+        "chunk-1",
+        "chunk-8"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q018",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-7",
+        "chunk-6",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q019",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-8",
+        "chunk-6",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 3,
+      "question_id": "Q020",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-7",
+        "chunk-5"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q001",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-7",
+        "chunk-10",
+        "chunk-8",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q002",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-7",
+        "chunk-10",
+        "chunk-4",
+        "chunk-5"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q003",
+      "relevant_chunk_count": 4,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-1",
+        "chunk-6",
+        "chunk-0",
+        "chunk-7"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 0.75,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q004",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-10",
+        "chunk-6",
+        "chunk-7",
+        "chunk-8"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q005",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-6",
+        "chunk-0",
+        "chunk-1",
+        "chunk-9"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.25
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q006",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-6",
+        "chunk-1",
+        "chunk-3",
+        "chunk-8"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 0.25
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q007",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-3",
+        "chunk-1",
+        "chunk-6",
+        "chunk-2"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.5
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q008",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-7",
+        "chunk-3",
+        "chunk-8",
+        "chunk-2"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.3333333333333333
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q009",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-8",
+        "chunk-4",
+        "chunk-2",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.2
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q010",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-7",
+        "chunk-4",
+        "chunk-10",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.2
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q011",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-7",
+        "chunk-6",
+        "chunk-4",
+        "chunk-10",
+        "chunk-8"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.3333333333333333
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q012",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-10",
+        "chunk-6",
+        "chunk-8",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q013",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-7",
+        "chunk-0",
+        "chunk-6",
+        "chunk-8"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q014",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-6",
+        "chunk-8",
+        "chunk-10",
+        "chunk-5"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q015",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-5",
+        "chunk-6",
+        "chunk-4",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.5
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q016",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-5",
+        "chunk-6",
+        "chunk-10",
+        "chunk-9",
+        "chunk-8"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q017",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-7",
+        "chunk-1",
+        "chunk-8",
+        "chunk-6",
+        "chunk-10"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        2,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q018",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-7",
+        "chunk-6",
+        "chunk-1",
+        "chunk-10",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q019",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-8",
+        "chunk-6",
+        "chunk-3",
+        "chunk-0",
+        "chunk-10"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "B",
+      "chunk_size": 512,
+      "overlap": 80,
+      "top_k": 5,
+      "question_id": "Q020",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-10",
+        "chunk-7",
+        "chunk-5",
+        "chunk-6",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q001",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-4",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q002",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-3",
+        "chunk-4",
+        "chunk-0"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 0.3333333333333333
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q003",
+      "relevant_chunk_count": 4,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-5",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q004",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-0",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.5
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q005",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-1",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 0.5
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q006",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-1",
+        "chunk-6"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q007",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-1",
+        "chunk-6"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q008",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-1",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q009",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-3",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q010",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-3",
+        "chunk-4",
+        "chunk-2"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.3333333333333333
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q011",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-4",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q012",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-3",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q013",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-3",
+        "chunk-4",
+        "chunk-2"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q014",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-3",
+        "chunk-2",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q015",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-3",
+        "chunk-2"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.5
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q016",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-3",
+        "chunk-6",
+        "chunk-5"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q017",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-1",
+        "chunk-5"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q018",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-2",
+        "chunk-6"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q019",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-5",
+        "chunk-4",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 3,
+      "question_id": "Q020",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-2",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q001",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-0",
+        "chunk-4",
+        "chunk-3",
+        "chunk-5",
+        "chunk-6"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q002",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-3",
+        "chunk-4",
+        "chunk-0",
+        "chunk-6",
+        "chunk-2"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 0.3333333333333333
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q003",
+      "relevant_chunk_count": 4,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-5",
+        "chunk-1",
+        "chunk-0",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q004",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-0",
+        "chunk-4",
+        "chunk-5",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.5
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q005",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-1",
+        "chunk-3",
+        "chunk-5",
+        "chunk-2"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 0.5,
+      "rr": 0.5
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q006",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-1",
+        "chunk-6",
+        "chunk-5",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q007",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-1",
+        "chunk-6",
+        "chunk-5",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q008",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-1",
+        "chunk-4",
+        "chunk-3",
+        "chunk-5"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q009",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-3",
+        "chunk-1",
+        "chunk-5",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q010",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-3",
+        "chunk-4",
+        "chunk-2",
+        "chunk-0",
+        "chunk-6"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.3333333333333333
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q011",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-4",
+        "chunk-1",
+        "chunk-5",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q012",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-2",
+        "chunk-3",
+        "chunk-1",
+        "chunk-5",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q013",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-3",
+        "chunk-4",
+        "chunk-2",
+        "chunk-6",
+        "chunk-0"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        1,
+        2,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q014",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-3",
+        "chunk-2",
+        "chunk-4",
+        "chunk-5",
+        "chunk-6"
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        2,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q015",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-3",
+        "chunk-2",
+        "chunk-5",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        2,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 0.5
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q016",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-3",
+        "chunk-6",
+        "chunk-5",
+        "chunk-2",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        1,
+        2,
+        2,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q017",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-1",
+        "chunk-5",
+        "chunk-3",
+        "chunk-2"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q018",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-4",
+        "chunk-2",
+        "chunk-6",
+        "chunk-3",
+        "chunk-1"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        2,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q019",
+      "relevant_chunk_count": 2,
+      "retrieved_ids": [
+        "chunk-5",
+        "chunk-4",
+        "chunk-1",
+        "chunk-2",
+        "chunk-3"
+      ],
+      "retrieved_pages": [
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    },
+    {
+      "configuration": "C",
+      "chunk_size": 800,
+      "overlap": 150,
+      "top_k": 5,
+      "question_id": "Q020",
+      "relevant_chunk_count": 1,
+      "retrieved_ids": [
+        "chunk-6",
+        "chunk-2",
+        "chunk-3",
+        "chunk-1",
+        "chunk-4"
+      ],
+      "retrieved_pages": [
+        2,
+        1,
+        1,
+        1,
+        2
+      ],
+      "hit": 1,
+      "recall": 1.0,
+      "rr": 1.0
+    }
+  ]
+}

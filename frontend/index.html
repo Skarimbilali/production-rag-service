@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Production RAG Service</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/script.js" defer></script>
+</head>
+
+<body>
+    <div class="app-container">
+
+        <header class="app-header">
+            <div>
+                <h1>Production RAG Service</h1>
+                <p>Ask questions about your uploaded documents</p>
+            </div>
+
+            <span class="status-badge" id="apiStatus">
+                Checking API...
+            </span>
+        </header>
+
+        <main class="dashboard">
+
+            <!-- Document Management -->
+            <section class="panel documents-panel">
+                <h2>Document Management</h2>
+
+                <form id="uploadForm">
+                    <label for="documentFile">
+                        Upload PDF or DOCX
+                    </label>
+
+                    <input
+                        type="file"
+                        id="documentFile"
+                        name="file"
+                        accept=".pdf,.docx"
+                        required
+                    >
+
+                    <button type="submit" id="uploadButton">
+                        Upload Document
+                    </button>
+                </form>
+
+                <p id="uploadMessage" role="status"></p>
+
+                <div class="section-heading">
+                    <h3>Uploaded Documents</h3>
+
+                    <button
+                        type="button"
+                        id="refreshDocuments"
+                        class="secondary-button"
+                    >
+                        Refresh
+                    </button>
+                </div>
+
+                <div id="documentsList">
+                    <p>No documents loaded yet.</p>
+                </div>
+            </section>
+
+            <!-- Question Answering -->
+            <section class="panel chat-panel">
+                <h2>Ask Your Documents</h2>
+
+                <form id="questionForm">
+                    <label for="questionInput">
+                        Your Question
+                    </label>
+
+                    <textarea
+                        id="questionInput"
+                        rows="4"
+                        placeholder="Example: RAG project mein retrieval metrics kya hain?"
+                        maxlength="2000"
+                        required
+                    ></textarea>
+
+                    <div class="question-options">
+
+                        <div>
+                            <label for="topK">Top K</label>
+
+                            <select id="topK">
+                                <option value="3">3</option>
+                                <option value="5" selected>5</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="threshold">
+                                Similarity Threshold
+                            </label>
+
+                            <select id="threshold">
+                                <option value="0.0">0.0</option>
+                                <option value="0.3" selected>0.3</option>
+                                <option value="0.5">0.5</option>
+                                <option value="0.7">0.7</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" id="askButton">
+                        Ask Question
+                    </button>
+                </form>
+
+                <p id="questionMessage" role="status"></p>
+
+                <div class="answer-section">
+                    <h3>AI Answer</h3>
+
+                    <div id="answerBox">
+                        Your answer will appear here.
+                    </div>
+                </div>
+
+                <div class="citations-section">
+                    <h3>Source Citations</h3>
+
+                    <div id="citationsList">
+                        No citations available.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Retrieved Context -->
+            <section class="panel retrieval-panel">
+                <div class="section-heading">
+                    <h2>Retrieved Chunks</h2>
+
+                    <span id="retrievedCount">0 chunks</span>
+                </div>
+
+                <p>
+                    View the actual retrieved context,
+                    source files, pages and similarity scores.
+                </p>
+
+                <div id="retrievedChunks">
+                    Retrieved chunks will appear here.
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="app-footer">
+            Production RAG Service | FastAPI + ChromaDB + Groq
+        </footer>
+
+    </div>
+</body>
+</html>

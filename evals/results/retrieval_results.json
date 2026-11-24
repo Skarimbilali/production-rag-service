@@ -1,0 +1,484 @@
+{
+  "summary": {
+    "timestamp_utc": "2026-11-24T08:17:31.084335+00:00",
+    "configuration": {
+      "top_k": 5,
+      "threshold": 0.0,
+      "expected_filename": "RAG_Project_Steps_Roman_Urdu.pdf"
+    },
+    "total_questions": 25,
+    "answerable_questions": 20,
+    "unanswerable_questions": 5,
+    "hit_at_k": 1.0,
+    "recall_at_k": 0.975,
+    "mrr_at_k": 0.7958
+  },
+  "questions": [
+    {
+      "id": "Q001",
+      "question": "RAG project ka sab se pehla step kya hai?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_positions": [
+        0,
+        4,
+        3,
+        5,
+        6
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q002",
+      "question": "RAG project ka overall workflow kis order mein diya gaya hai?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_positions": [
+        3,
+        4,
+        0,
+        6,
+        2
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333
+    },
+    {
+      "id": "Q003",
+      "question": "What folders should be created during initial project setup?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_positions": [
+        6,
+        5,
+        1,
+        0,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.25
+    },
+    {
+      "id": "Q004",
+      "question": "Har project step ke baad kya save karna chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_positions": [
+        6,
+        0,
+        4,
+        5,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q005",
+      "question": "Setup step mein vector database ko kis tool se chalane ka kaha gaya hai?",
+      "answerable": true,
+      "expected_positions": [
+        0,
+        1
+      ],
+      "retrieved_positions": [
+        6,
+        1,
+        3,
+        5,
+        2
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 0.5,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q006",
+      "question": "Document ke mutabiq embeddings ke liye konsa model use karna hai?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_positions": [
+        2,
+        1,
+        6,
+        5,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q007",
+      "question": "Document ke mutabiq embeddings kis vector database mein store karni hain?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_positions": [
+        2,
+        1,
+        6,
+        5,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q008",
+      "question": "Har document chunk ke saath konsi metadata fields rakhni hain?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_positions": [
+        2,
+        1,
+        4,
+        3,
+        5
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q009",
+      "question": "Which retrieval methods does the document suggest comparing?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_positions": [
+        2,
+        3,
+        1,
+        5,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q010",
+      "question": "RAG project mein retrieval evaluation ke liye kaunse metrics use karne hain?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_positions": [
+        3,
+        4,
+        2,
+        0,
+        6
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333
+    },
+    {
+      "id": "Q011",
+      "question": "Agar relevant document chunks na milen to chatbot ko kya jawab dena chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_positions": [
+        2,
+        4,
+        1,
+        5,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q012",
+      "question": "Document ke mutabiq LLM answers mein citations ka format kya hona chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_positions": [
+        2,
+        3,
+        1,
+        5,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q013",
+      "question": "Answer evaluation ke liye RAGAS ke kaunse metrics mention hain?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_positions": [
+        3,
+        4,
+        2,
+        6,
+        0
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q014",
+      "question": "LLM judge ko kitne hand-labeled answers se check karna hai?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_positions": [
+        3,
+        2,
+        4,
+        5,
+        6
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q015",
+      "question": "Experiments mein chunk size aur top-k ki konsi values compare karni hain?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_positions": [
+        6,
+        3,
+        2,
+        5,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q016",
+      "question": "Guardrails evaluation ke liye kitne injection aur jailbreak prompts banane hain?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_positions": [
+        3,
+        6,
+        5,
+        2,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q017",
+      "question": "FastAPI backend mein kaunse main endpoints banane hain?",
+      "answerable": true,
+      "expected_positions": [
+        4
+      ],
+      "retrieved_positions": [
+        4,
+        1,
+        5,
+        3,
+        2
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q018",
+      "question": "Frontend ke Retrieved Chunks panel mein kya information show honi chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        4
+      ],
+      "retrieved_positions": [
+        4,
+        2,
+        6,
+        3,
+        1
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q019",
+      "question": "Langfuse mein har query ke liye konsi information trace karni hai?",
+      "answerable": true,
+      "expected_positions": [
+        4
+      ],
+      "retrieved_positions": [
+        5,
+        4,
+        1,
+        2,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q020",
+      "question": "Document mein 512/80 chunk configuration ko final rakhne ke baare mein kya kaha gaya hai?",
+      "answerable": true,
+      "expected_positions": [
+        6
+      ],
+      "retrieved_positions": [
+        6,
+        2,
+        3,
+        1,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q021",
+      "question": "What is the administrator password of the project?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_positions": [
+        5,
+        1,
+        4,
+        0,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q022",
+      "question": "Project ke creator ka personal phone number kya hai?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_positions": [
+        6,
+        4,
+        0,
+        5,
+        2
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q023",
+      "question": "What is the secret production API key?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_positions": [
+        5,
+        1,
+        4,
+        6,
+        0
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q024",
+      "question": "RAG project ka exact monthly cloud hosting bill kitna hai?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_positions": [
+        4,
+        0,
+        3,
+        5,
+        2
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q025",
+      "question": "Project ka production server IP address kya hai?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_positions": [
+        5,
+        6,
+        1,
+        4,
+        0
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    }
+  ]
+}

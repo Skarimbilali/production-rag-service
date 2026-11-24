@@ -1,0 +1,26 @@
+id,question,answerable,expected_positions,retrieved_positions,retrieved_count,hit_at_k,recall_at_k,reciprocal_rank
+Q001,RAG project ka sab se pehla step kya hai?,True,[0],"[0, 4, 3, 5, 6]",5,1,1.0,1.0
+Q002,RAG project ka overall workflow kis order mein diya gaya hai?,True,[0],"[3, 4, 0, 6, 2]",5,1,1.0,0.3333333333333333
+Q003,What folders should be created during initial project setup?,True,[0],"[6, 5, 1, 0, 4]",5,1,1.0,0.25
+Q004,Har project step ke baad kya save karna chahiye?,True,[0],"[6, 0, 4, 5, 3]",5,1,1.0,0.5
+Q005,Setup step mein vector database ko kis tool se chalane ka kaha gaya hai?,True,"[0, 1]","[6, 1, 3, 5, 2]",5,1,0.5,0.5
+Q006,Document ke mutabiq embeddings ke liye konsa model use karna hai?,True,[2],"[2, 1, 6, 5, 3]",5,1,1.0,1.0
+Q007,Document ke mutabiq embeddings kis vector database mein store karni hain?,True,[2],"[2, 1, 6, 5, 3]",5,1,1.0,1.0
+Q008,Har document chunk ke saath konsi metadata fields rakhni hain?,True,[2],"[2, 1, 4, 3, 5]",5,1,1.0,1.0
+Q009,Which retrieval methods does the document suggest comparing?,True,[2],"[2, 3, 1, 5, 4]",5,1,1.0,1.0
+Q010,RAG project mein retrieval evaluation ke liye kaunse metrics use karne hain?,True,[2],"[3, 4, 2, 0, 6]",5,1,1.0,0.3333333333333333
+Q011,Agar relevant document chunks na milen to chatbot ko kya jawab dena chahiye?,True,[2],"[2, 4, 1, 5, 3]",5,1,1.0,1.0
+Q012,Document ke mutabiq LLM answers mein citations ka format kya hona chahiye?,True,[2],"[2, 3, 1, 5, 4]",5,1,1.0,1.0
+Q013,Answer evaluation ke liye RAGAS ke kaunse metrics mention hain?,True,[3],"[3, 4, 2, 6, 0]",5,1,1.0,1.0
+Q014,LLM judge ko kitne hand-labeled answers se check karna hai?,True,[3],"[3, 2, 4, 5, 6]",5,1,1.0,1.0
+Q015,Experiments mein chunk size aur top-k ki konsi values compare karni hain?,True,[3],"[6, 3, 2, 5, 4]",5,1,1.0,0.5
+Q016,Guardrails evaluation ke liye kitne injection aur jailbreak prompts banane hain?,True,[3],"[3, 6, 5, 2, 4]",5,1,1.0,1.0
+Q017,FastAPI backend mein kaunse main endpoints banane hain?,True,[4],"[4, 1, 5, 3, 2]",5,1,1.0,1.0
+Q018,Frontend ke Retrieved Chunks panel mein kya information show honi chahiye?,True,[4],"[4, 2, 6, 3, 1]",5,1,1.0,1.0
+Q019,Langfuse mein har query ke liye konsi information trace karni hai?,True,[4],"[5, 4, 1, 2, 3]",5,1,1.0,0.5
+Q020,Document mein 512/80 chunk configuration ko final rakhne ke baare mein kya kaha gaya hai?,True,[6],"[6, 2, 3, 1, 4]",5,1,1.0,1.0
+Q021,What is the administrator password of the project?,False,[],"[5, 1, 4, 0, 3]",5,,,
+Q022,Project ke creator ka personal phone number kya hai?,False,[],"[6, 4, 0, 5, 2]",5,,,
+Q023,What is the secret production API key?,False,[],"[5, 1, 4, 6, 0]",5,,,
+Q024,RAG project ka exact monthly cloud hosting bill kitna hai?,False,[],"[4, 0, 3, 5, 2]",5,,,
+Q025,Project ka production server IP address kya hai?,False,[],"[5, 6, 1, 4, 0]",5,,,
