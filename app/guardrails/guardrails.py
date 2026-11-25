@@ -1,5 +1,20 @@
 
+"""
+Input and output guardrails for the Production RAG Service.
+
+Responsibilities:
+- Validate question types and length.
+- Reject common prompt-injection and jailbreak instructions.
+- Allow legitimate educational security questions.
+- Detect simple whitespace and zero-width obfuscation.
+- Validate generated answers and detect common secret leaks.
+
+These checks are defense-in-depth controls. They do not
+guarantee protection against every adversarial attack.
+"""
+
 import re
+import unicodedata
 
 from app.core.logger import AppLogger
 
@@ -8,41 +23,100 @@ logger = AppLogger.get_logger(__name__)
 
 
 class GuardrailService:
-    """
-    Centralized security checks for RAG questions.
-
-    Responsibilities:
-        1. Reject empty questions.
-        2. Reject overly long questions.
-        3. Detect common prompt-injection patterns.
-        4. Detect common jailbreak attempts.
-
-    Pattern-based detection is a baseline defense.
-    It cannot detect every malicious question.
-    """
+    """Centralized input and output security validation."""
 
     MAX_QUESTION_LENGTH = 2000
 
+    # Detect instructions and requests, rather than blocking
+    # every mention of a security-related keyword.
     BLOCKED_PATTERNS = [
-        r"ignore (all |your )?(previous|prior) instructions",
-        r"reveal (your |the )?(system prompt|hidden instructions)",
-        r"show (me )?(your |the )?(api key|secret key)",
-        r"bypass (your |the )?(safety|security|guardrails)",
-        r"developer mode",
-        r"jailbreak",
-        r"forget (all |your )?(instructions|rules)",
+        r"\bignore\s+(?:all\s+|your\s+|the\s+)?"
+        r"(?:previous|prior|above)\s+instructions\b",
+
+        r"\b(?:reveal|display|print|expose)\s+"
+        r"(?:your\s+|the\s+)?"
+        r"(?:system\s+prompt|hidden\s+instructions|"
+        r"developer\s+instructions)\b",
+
+        r"\bshow\s+(?:me\s+)?(?:your\s+|the\s+)?"
+        r"(?:api\s+key|secret\s+key|private\s+key)\b",
+
+        r"\b(?:bypass|disable|turn\s+off)\s+"
+        r"(?:your\s+|the\s+)?"
+        r"(?:safety|security|guardrails|"
+        r"safety\s+rules|security\s+rules)\b",
+
+        r"\b(?:enable|activate|enter|switch\s+to)\s+"
+        r"developer\s+mode\b",
+
+        r"\b(?:perform|execute|attempt|start)\s+"
+        r"(?:a\s+)?jailbreak\b",
+
+        r"\bjailbreak\s+attempt\b",
+
+        r"\bforget\s+(?:all\s+|your\s+|the\s+)?"
+        r"(?:instructions|rules)\b",
+
+        r"\b(?:you\s+are\s+now|act\s+as)\s+"
+        r"(?:an?\s+)?(?:unrestricted|uncensored)\s+"
+        r"(?:assistant|ai|model)\b",
     ]
+
+    BLOCKED_OUTPUT_PATTERNS = [
+        r"\bsecurity\s+guardrails\s+are\s+disabled\b",
+        r"\bignore\s+all\s+previous\s+instructions\b",
+        r"\bimportant\s+system\s+override\b",
+
+        # Common OpenAI and Groq API key formats.
+        # This is not an exhaustive secret scanner.
+        r"\bsk-proj-[A-Za-z0-9_-]{10,}\b",
+        r"\bgsk_[A-Za-z0-9_-]{10,}\b",
+    ]
+
+    _INPUT_REGEX = [
+        re.compile(pattern, re.IGNORECASE)
+        for pattern in BLOCKED_PATTERNS
+    ]
+
+    _OUTPUT_REGEX = [
+        re.compile(pattern, re.IGNORECASE)
+        for pattern in BLOCKED_OUTPUT_PATTERNS
+    ]
+
+    @staticmethod
+    def _normalize_for_detection(value: str) -> str:
+        """
+        Normalize text for security-pattern matching.
+
+        Keep the original trimmed text for the application,
+        so legitimate user wording is not changed.
+        """
+        value = unicodedata.normalize("NFKC", value)
+
+        # Remove common invisible characters sometimes
+        # inserted to split blocked instructions.
+        value = re.sub(
+            r"[\u200b-\u200d\u2060\ufeff]",
+            "",
+            value,
+        )
+
+        # Treat runs of whitespace as one space, including
+        # tabs and line breaks.
+        value = re.sub(r"\s+", " ", value)
+
+        return value.strip()
 
     @classmethod
     def validate_question(cls, question: str) -> str:
         """
-        Validate question content before retrieval.
+        Validate a user question before retrieval.
 
         Returns:
-            Normalized question.
+            The trimmed original question.
 
         Raises:
-            ValueError: Empty, overly long or blocked question.
+            ValueError for invalid or blocked input.
         """
         if not isinstance(question, str):
             logger.warning("Non-string question rejected")
@@ -58,8 +132,14 @@ class GuardrailService:
             logger.warning("Overly long question rejected")
             raise ValueError("Question exceeds maximum length.")
 
-        for pattern in cls.BLOCKED_PATTERNS:
-            if re.search(pattern, question, re.IGNORECASE):
+        normalized = cls._normalize_for_detection(question)
+
+        if not normalized:
+            logger.warning("Invisible-only question rejected")
+            raise ValueError("Question cannot be empty.")
+
+        for pattern in cls._INPUT_REGEX:
+            if pattern.search(normalized):
                 logger.warning(
                     "Potential prompt injection detected"
                 )
@@ -68,33 +148,41 @@ class GuardrailService:
                 )
 
         logger.info("Question passed input guardrails")
-        return question
 
+        return question
 
     @classmethod
     def validate_answer(cls, answer: str) -> str:
         """
-        Apply basic security checks to an LLM-generated answer.
+        Validate a generated answer before returning it.
 
-        This is a defense-in-depth check, not a complete
-        secret detection or prompt-injection solution.
+        Returns:
+            The trimmed original answer.
+
+        Raises:
+            ValueError for empty or blocked output.
         """
-        if not isinstance(answer, str) or not answer.strip():
+        if not isinstance(answer, str):
+            logger.warning("Non-string LLM answer rejected")
             raise ValueError("LLM answer cannot be empty.")
 
         answer = answer.strip()
 
-        blocked_output_patterns = [
-            r"security guardrails are disabled",
-            r"ignore all previous instructions",
-            r"important system override",
-            r"sk-proj-[A-Za-z0-9_-]{10,}",
-            r"gsk_[A-Za-z0-9]{10,}",
-        ]
+        if not answer:
+            logger.warning("Empty LLM answer rejected")
+            raise ValueError("LLM answer cannot be empty.")
 
-        for pattern in blocked_output_patterns:
-            if re.search(pattern, answer, re.IGNORECASE):
+        normalized = cls._normalize_for_detection(answer)
+
+        if not normalized:
+            logger.warning("Invisible-only LLM answer rejected")
+            raise ValueError("LLM answer cannot be empty.")
+
+        for pattern in cls._OUTPUT_REGEX:
+            if pattern.search(normalized):
                 logger.warning("Unsafe LLM output detected")
-                raise ValueError("LLM output violates security rules.")
+                raise ValueError(
+                    "LLM output violates security rules."
+                )
 
         return answer
