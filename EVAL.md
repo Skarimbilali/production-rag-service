@@ -1,12 +1,12 @@
-# Production RAG Service — Evaluation Report
+﻿# Production RAG Service â€” Evaluation Report
 
-**Project:** Portfolio 01 — Production RAG Service
-**Evaluation Date:** 24–25 November 2026
+**Project:** Portfolio 01 â€” Production RAG Service
+**Evaluation Date:** 24â€“25 November 2026
 **Framework:** Custom Python evaluation scripts with LLM-as-a-Judge
 **Backend:** FastAPI
 **Embedding Model:** `intfloat/multilingual-e5-small`
 **Vector Database:** ChromaDB
-**LLM:** Groq — `openai/gpt-oss-20b`
+**LLM:** Groq â€” `openai/gpt-oss-20b`
 
 ---
 
@@ -18,7 +18,7 @@ Evaluation covers retrieval quality, answer faithfulness, chunking configuration
 
 The work was completed in two main phases.
 
-**Phase 1 — Initial RAG Implementation**
+**Phase 1 â€” Initial RAG Implementation**
 
 - PDF and DOCX ingestion
 - Text extraction and overlapping chunking
@@ -30,7 +30,7 @@ The work was completed in two main phases.
 - Chunking experiments
 - LLM-as-a-Judge faithfulness evaluation
 
-**Phase 2 — Multi-Document Retrieval Improvements**
+**Phase 2 â€” Multi-Document Retrieval Improvements**
 
 - Investigation of retrieval failures across two uploaded PDFs
 - Paragraph- and sentence-aware smart chunking
@@ -65,7 +65,7 @@ The evaluation investigates:
 | Component | Configuration |
 |---|---|
 | Backend | FastAPI |
-| Frontend | HTML, CSS, JavaScript |
+| Frontend | React + Vite; original HTML/CSS/JavaScript retained |
 | PDF extraction | pypdf and pdfplumber |
 | DOCX extraction | python-docx |
 | Chunk size | 800 characters |
@@ -121,7 +121,7 @@ The golden dataset is stored in:
 
 The original relevance labels identify chunk positions associated with the RAG Project Guide.
 
-### Test Document A — RAG Project Guide
+### Test Document A â€” RAG Project Guide
 
 **Filename:** `RAG_Project_Steps_Roman_Urdu.pdf`
 
@@ -130,7 +130,7 @@ The original relevance labels identify chunk positions associated with the RAG P
 - Used in historical retrieval and chunking evaluation
 - Provides the original golden-question relevance labels
 
-### Test Document B — TechNova HR Policy Manual
+### Test Document B â€” TechNova HR Policy Manual
 
 **Filename:** `TechNova_HR_Policy_Manual.pdf`
 
@@ -216,7 +216,7 @@ The matching semantic-only values observed in the new experiment are reported se
 
 ---
 
-## 7. Phase 2 — Semantic-Only vs Hybrid Retrieval Benchmark
+## 7. Phase 2 â€” Semantic-Only vs Hybrid Retrieval Benchmark
 
 ### 7.1 Objective
 
@@ -256,13 +256,13 @@ The evaluation log confirmed successful execution of both retrieval strategies.
 
 ### 7.3 Compared Retrieval Methods
 
-**Method A — Semantic-Only**
+**Method A â€” Semantic-Only**
 
 The question is embedded with multilingual E5 and submitted directly to ChromaDB.
 
 Results are ranked using vector similarity without the Phase 2 keyword-based reranking step.
 
-**Method B — Hybrid**
+**Method B â€” Hybrid**
 
 The question is processed through the Phase 2 retrieval implementation.
 
@@ -396,17 +396,17 @@ Three chunking configurations were compared on the same small source document us
 
 | Configuration | Hit@5 | Recall@5 | MRR@5 |
 |---|---:|---:|---:|
-| A — 256/50 | 85.00% | 64.58% | 0.7225 |
-| B — 512/80 | 100.00% | 86.25% | 0.7283 |
-| C — 800/150 | 100.00% | 95.00% | 0.8583 |
+| A â€” 256/50 | 85.00% | 64.58% | 0.7225 |
+| B â€” 512/80 | 100.00% | 86.25% | 0.7283 |
+| C â€” 800/150 | 100.00% | 95.00% | 0.8583 |
 
 ### Top-3 Results
 
 | Configuration | Hit@3 | Recall@3 | MRR@3 |
 |---|---:|---:|---:|
-| A — 256/50 | 75.00% | 57.08% | 0.7000 |
-| B — 512/80 | 80.00% | 65.00% | 0.6833 |
-| C — 800/150 | 100.00% | 92.50% | 0.8583 |
+| A â€” 256/50 | 75.00% | 57.08% | 0.7000 |
+| B â€” 512/80 | 80.00% | 65.00% | 0.6833 |
+| C â€” 800/150 | 100.00% | 92.50% | 0.8583 |
 
 ### Decision
 
@@ -516,7 +516,7 @@ Checkpoint files may also exist locally. Their inclusion in Git must be verified
 
 ---
 
-## 10. Phase 2 — Multi-Document Retrieval Problem
+## 10. Phase 2 â€” Multi-Document Retrieval Problem
 
 ### Initial Behavior
 
@@ -548,7 +548,7 @@ The second upload had not simply failed. The content existed in the collection, 
 
 ---
 
-## 11. Phase 2 — Improvements Implemented
+## 11. Phase 2 â€” Improvements Implemented
 
 ### 11.1 Smart Chunking
 
@@ -655,7 +655,7 @@ This architecture improves evidence selection, but it does not guarantee perfect
 
 ---
 
-## 13. Phase 2 — Before-and-After Manual Testing
+## 13. Phase 2 â€” Before-and-After Manual Testing
 
 | Test case | Before improvements | After improvements |
 |---|---|---|
@@ -689,7 +689,7 @@ Not every generated answer and citation has been independently audited.
 
 ---
 
-## 15. Second PDF — Project Guide Testing
+## 15. Second PDF â€” Project Guide Testing
 
 Manual questions included:
 
@@ -721,8 +721,8 @@ How many annual leave days are allowed?
 
 ### Citations
 
-- S1 — TechNova HR Policy Manual, page 5
-- S4 — TechNova HR Policy Manual, page 5
+- S1 â€” TechNova HR Policy Manual, page 5
+- S4 â€” TechNova HR Policy Manual, page 5
 
 ### Retrieved Chunks
 
@@ -764,13 +764,13 @@ They support:
 - Checkpoints and resume functionality
 - Explicit experimental configuration
 
-### Alternative — RAGAS
+### Alternative â€” RAGAS
 
 RAGAS provides standardized RAG quality metrics.
 
 It was considered a possible additional framework but is not claimed to have produced the reported results.
 
-### Alternative — Langfuse
+### Alternative â€” Langfuse
 
 Langfuse offers tracing and observability for model calls, retrieval, latency, and costs.
 
@@ -788,7 +788,7 @@ However, its labels, experimental setup, and judge reliability require independe
 
 The latest previously reported pytest regression result was:
 
-**35 tests passed.**
+**134 tests passed, 1 third-party deprecation warning.**
 
 Run:
 
@@ -831,7 +831,7 @@ Successful notebook execution does not independently establish overall answer co
 
 ## 19. Error Analysis
 
-### Failure 1 — Missing Relevant Evidence
+### Failure 1 â€” Missing Relevant Evidence
 
 **Problem:** Existing HR policy questions sometimes received refusals.
 
@@ -839,7 +839,7 @@ Successful notebook execution does not independently establish overall answer co
 
 **Improvement:** Broader semantic candidates and keyword-aware hybrid reranking.
 
-### Failure 2 — Table Value Confusion
+### Failure 2 â€” Table Value Confusion
 
 **Problem:** International per diem was mistaken for a hotel limit.
 
@@ -847,7 +847,7 @@ Successful notebook execution does not independently establish overall answer co
 
 **Improvement:** Better structured extraction and grounded generation instructions.
 
-### Failure 3 — Irrelevant Retrieved Chunks
+### Failure 3 â€” Irrelevant Retrieved Chunks
 
 **Problem:** Some returned chunks were only indirectly relevant.
 
@@ -855,7 +855,7 @@ Successful notebook execution does not independently establish overall answer co
 
 **Remaining work:** Better ranking calibration and precision evaluation.
 
-### Failure 4 — Ranking Regressions
+### Failure 4 â€” Ranking Regressions
 
 **Problem:** Hybrid retrieval ranked the first relevant result lower for Q007, Q008, Q013, and Q020.
 
@@ -863,7 +863,7 @@ Successful notebook execution does not independently establish overall answer co
 
 **Remaining work:** Investigate keyword-weight effects and improve reranking.
 
-### Failure 5 — Golden Label Validity
+### Failure 5 â€” Golden Label Validity
 
 **Problem:** Position-based relevance labels may no longer correspond perfectly to evidence after smart chunking.
 
@@ -1053,3 +1053,92 @@ These results show improved aggregate recall and ranking under the tested condit
 However, the existing golden questions primarily evaluate one document, and the chunk-position relevance labels require independent verification after Phase 2 chunking changes.
 
 **Overall conclusion:** The project demonstrates a functioning, tested RAG pipeline with measurable retrieval improvements. Broader multi-document evaluation and independently validated answer quality remain necessary before production-grade accuracy can be claimed.
+---
+
+## 25. Final Regression and React Verification
+
+### Automated Testing
+
+The latest verified full regression run reported:
+
+**134 passed, 1 third-party Starlette/AnyIO deprecation warning.**
+
+Command:
+
+```powershell
+python -m pytest -q
+```
+
+This result supersedes the earlier 35-test status recorded during development.
+
+### Additional Security Verification
+
+Document-level guardrails were tested through the ingestion API.
+
+| Test | Observed result |
+|---|---|
+| Malicious DOCX upload | HTTP 400 |
+| Rejected document indexed | No |
+| Legitimate DOCX upload | HTTP 201 |
+| Legitimate DOCX deletion | HTTP 204 |
+
+These observations validate selected cases, not exhaustive document security.
+
+### Multilingual Verification
+
+An English annual-leave question returned the expected answer of 20 working days.
+
+A corresponding Roman Urdu question also returned the annual-leave policy correctly.
+
+The tests demonstrate observed functionality rather than a statistically measured multilingual accuracy rate.
+
+### React Frontend Verification
+
+The React + Vite dashboard was tested against the running FastAPI backend.
+
+Observed results:
+
+- `POST /questions/ask` returned HTTP 200.
+- Generated answer: permanent employees receive 20 working days of annual leave.
+- Two source citations returned.
+- Five retrieved chunks returned.
+- Similarity scores and actual retrieved text displayed.
+- PDF uploading successful.
+- Document deletion successful.
+- Monitoring displayed request, retrieval and generation metrics.
+- React production build completed successfully.
+
+The React dashboard's mobile upper section was visually checked. Complete mobile coverage remains outstanding.
+
+### Monitoring Observation
+
+One local monitoring session reported:
+
+| Measurement | Observed value |
+|---|---:|
+| Total API requests | 23 |
+| Successful API requests | 23 |
+| Failed API requests | 0 |
+| Retrieval calls | 3 |
+| Average retrieval duration | 2649.87 ms |
+| Average generation duration | 654.13 ms |
+
+These are session observations, not formal latency benchmarks.
+
+## 26. Final Evidence and Interpretation
+
+The controlled semantic-only versus hybrid retrieval comparison remains the primary quantitative retrieval evidence:
+
+| Metric | Semantic-only | Hybrid |
+|---|---:|---:|
+| Hit@5 | 100.00% | 100.00% |
+| Recall@5 | 97.50% | 100.00% |
+| MRR@5 | 0.7958 | 0.8750 |
+
+The LLM judge classified 20/20 evaluated answers as faithful, but independent calibration remains outstanding.
+
+The golden questions principally evaluate one indexed source, and position-based relevance labels require verification against final smart-chunked text.
+
+The final verification adds successful React integration, document guardrail tests, multilingual answer testing, monitoring and a 134-test regression result.
+
+These results support a functional and tested RAG prototype, not a guarantee of production-wide accuracy, scalability or security.
