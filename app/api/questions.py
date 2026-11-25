@@ -1,8 +1,23 @@
 
+"""
+Document-grounded question answering API.
+
+Features:
+- Input guardrails
+- Semantic + hybrid retrieval
+- Groq answer generation
+- Citation and output validation
+- English and Roman Urdu refusals
+- Retrieval and generation performance monitoring
+"""
+
+import time
+
 from fastapi import APIRouter, HTTPException, status
 from groq import APIConnectionError, APIStatusError
 
 from app.core.logger import AppLogger
+from app.core.monitoring import monitoring_service
 from app.schemas import QuestionRequest, QuestionResponse
 from app.retrieval.retriever import RetrievalService
 from app.generation.generator import GenerationService
@@ -13,15 +28,15 @@ from app.guardrails.guardrails import GuardrailService
 
 logger = AppLogger.get_logger(__name__)
 
+
 router = APIRouter(
     prefix="/questions",
-    tags=["Questions"]
+    tags=["Questions"],
 )
 
-# Reuse the vector database and retrieval service.
+
 vector_store = VectorStoreService()
 retrieval_service = RetrievalService(vector_store)
-
 
 
 @router.post(
@@ -36,60 +51,85 @@ retrieval_service = RetrievalService(vector_store)
                         "detail": "Question violates security rules."
                     }
                 }
-            }
+            },
         },
         422: {
-            "description": "Invalid request or answer processing error"
+            "description": "Invalid request or answer processing error",
         },
         503: {
-            "description": "LLM provider temporarily unavailable"
-        }
-    }
+            "description": "LLM provider temporarily unavailable",
+        },
+    },
 )
-
-async def ask_question(request: QuestionRequest) -> QuestionResponse:
+async def ask_question(
+    request: QuestionRequest,
+) -> QuestionResponse:
     """
     Answer an English or Roman Urdu question using RAG.
 
-    Workflow:
-        1. Retrieve relevant document chunks.
-        2. Generate a grounded answer using Groq.
-        3. Validate citations against retrieved sources.
-        4. Return answer, citations and similarity scores.
+    Retrieval and generation timings are recorded
+    independently and exposed through /metrics.
 
-    External API failures return HTTP 503.
+    Documents, user questions and API credentials are
+    not included in monitoring metrics.
     """
     logger.info("Question answering request received")
-        # Validate question before retrieval and LLM processing.
+
+    # Validate the question before retrieval or generation.
     try:
-        validated_question = GuardrailService.validate_question(
-            request.question
+        validated_question = (
+            GuardrailService.validate_question(
+                request.question
+            )
         )
     except ValueError as exc:
-        logger.warning("Question rejected by input guardrails")
+        logger.warning(
+            "Question rejected by input guardrails"
+        )
+
         raise HTTPException(
             status_code=400,
-            detail=str(exc)
+            detail=str(exc),
         ) from exc
 
     try:
-        # Step 1: Retrieve relevant context.
-        chunks = retrieval_service.retrieve(
-            question=validated_question,
-            top_k=request.top_k,
-            threshold=request.threshold
-        )
+        # Step 1: Retrieve document evidence.
+        retrieval_started = time.perf_counter()
 
-        # No LLM request is needed when retrieval finds nothing.
-        if not chunks:
-            return QuestionResponse(
-                answer=GenerationService.REFUSAL_MESSAGE,
-                citations=[],
-                retrieved_count=0,
-                retrieved_chunks=[]
+        try:
+            chunks = retrieval_service.retrieve(
+                question=validated_question,
+                top_k=request.top_k,
+                threshold=request.threshold,
+            )
+        finally:
+            retrieval_ms = (
+                time.perf_counter() - retrieval_started
+            ) * 1000
+
+            monitoring_service.record_retrieval(
+                retrieval_ms
             )
 
-        # Step 2: Create an asynchronous LLM client.
+            logger.info(
+                "RAG retrieval duration | duration_ms=%.2f",
+                retrieval_ms,
+            )
+
+        # No Groq request if the retriever finds no evidence.
+        if not chunks:
+            refusal = GenerationService.get_refusal_message(
+                validated_question
+            )
+
+            return QuestionResponse(
+                answer=refusal,
+                citations=[],
+                retrieved_count=0,
+                retrieved_chunks=[],
+            )
+
+        # Step 2: Initialize the Groq client.
         llm_client = GroqLLMClient()
 
         try:
@@ -97,44 +137,68 @@ async def ask_question(request: QuestionRequest) -> QuestionResponse:
                 llm_client.generate
             )
 
-            # Step 3: Generate answer and validate citations.
-            result = await generation_service.generate_answer(
-                question=request.question,
-                chunks=chunks
-            )
+            # Step 3: Measure generation independently.
+            generation_started = time.perf_counter()
+
+            try:
+                result = (
+                    await generation_service.generate_answer(
+                        question=validated_question,
+                        chunks=chunks,
+                    )
+                )
+            finally:
+                generation_ms = (
+                    time.perf_counter() - generation_started
+                ) * 1000
+
+                monitoring_service.record_generation(
+                    generation_ms
+                )
+
+                logger.info(
+                    "RAG generation duration | "
+                    "duration_ms=%.2f",
+                    generation_ms,
+                )
 
         finally:
-            # Ensure HTTP connections are released.
+            # Release Groq HTTP connections.
             await llm_client.close()
 
-        # Step 4: Return the evidence with the answer.
+        # Step 4: Include actual evidence in the API response.
         return QuestionResponse(
             answer=result["answer"],
             citations=result["citations"],
             retrieved_count=result["retrieved_count"],
-            retrieved_chunks=chunks
+            retrieved_chunks=chunks,
         )
 
     except APIConnectionError:
         logger.exception("LLM connection failed")
+
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="LLM service temporarily unavailable."
+            detail="LLM service temporarily unavailable.",
         )
 
     except APIStatusError as exc:
         logger.error(
             "LLM API failed | status=%s",
-            exc.status_code
+            exc.status_code,
         )
+
         raise HTTPException(
             status_code=503,
-            detail="LLM service temporarily unavailable."
+            detail="LLM service temporarily unavailable.",
         )
 
     except ValueError:
-        logger.exception("Invalid question processing result")
+        logger.exception(
+            "Invalid question processing result"
+        )
+
         raise HTTPException(
             status_code=422,
-            detail="Unable to process question."
+            detail="Unable to process question.",
         )

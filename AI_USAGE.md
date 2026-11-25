@@ -73,7 +73,7 @@ Latest observed results:
 
 | Evaluation | Observed Result |
 |---|---|
-| Automated pytest suite | 35 passed |
+| Automated pytest suite | 134 passed, 1 third-party warning |
 | Retrieval Hit@5 | 100.00% |
 | Retrieval Recall@5 | 97.50% |
 | Retrieval MRR@5 | 0.7958 |
@@ -124,7 +124,7 @@ AI-generated code and explanations were not treated as automatically correct.
 - LLM judge results can contain errors or bias.
 - Evaluation labels require human review.
 - The current corpus is too small to establish production-wide performance.
-- DOCX processing implementation has not been independently confirmed by a final end-to-end upload test.
+- DOCX upload and deletion were successfully tested; comprehensive security and production testing remain outstanding.
 
 ## Conversation and Prompt History
 
@@ -133,3 +133,89 @@ Development summaries are stored under `docs/ai-history/`, where available.
 The original ChatGPT conversations are the primary record of AI interaction. The complete conversation export or consolidated prompt-history artifact has not yet been verified as part of this repository.
 
 The documentation in this file is a disclosure and summary of AI assistance, not a substitute for the complete original conversation history.
+---
+
+## Final Development Phase
+
+### React Frontend Assistance
+
+ChatGPT assisted the developer with:
+
+- Choosing React + Vite.
+- Resolving the Windows `spawnSync cmd.exe ENOENT` installation issue.
+- Configuring the Vite development proxy.
+- Developing the React dashboard components.
+- Implementing PDF/DOCX upload, document listing and deletion.
+- Integrating RAG question answering.
+- Displaying citations, retrieved chunk text and similarity scores.
+- Building the monitoring dashboard.
+- Creating responsive CSS.
+- Reviewing browser and API verification results.
+
+The original HTML/CSS/JavaScript frontend was preserved.
+
+The developer installed dependencies, integrated source files, ran the React application, tested API responses, verified the production build and committed the code.
+
+### Multi-Document Retrieval and Evaluation
+
+AI assistance included diagnosis of multi-PDF retrieval ranking problems, smart chunking improvements, structured extraction, hybrid reranking and evaluation design.
+
+The controlled semantic-only versus hybrid benchmark reported:
+
+| Metric | Semantic-only | Hybrid |
+|---|---:|---:|
+| Hit@5 | 100.00% | 100.00% |
+| Recall@5 | 97.50% | 100.00% |
+| MRR@5 | 0.7958 | 0.8750 |
+
+The experiment used a limited corpus and position-based relevance labels requiring independent review.
+
+### Security and Multilingual Features
+
+ChatGPT assisted in implementing and testing document-level guardrails and English/Roman Urdu generation.
+
+Observed security verification included rejection of a malicious DOCX with HTTP 400 and successful upload and deletion of a legitimate DOCX.
+
+The developer remained responsible for executing and validating these tests.
+
+### Monitoring Assistance
+
+ChatGPT assisted in developing:
+
+- FastAPI request monitoring.
+- Retrieval and generation timing.
+- A JSON `/metrics` endpoint.
+- Monitoring regression tests.
+- React dashboard integration.
+
+Metrics are in memory and reset on restart.
+
+### Final Testing and Git
+
+The latest verified automated regression reported:
+
+**134 passed, 1 third-party deprecation warning.**
+
+React production build and browser integration were verified.
+
+ChatGPT also provided assistance with Git staging, line-ending warnings, commit verification, branch workflow and documentation updates.
+
+React frontend commit:
+
+`61d38e9`
+
+Branch:
+
+`development`
+
+### AI Assistance Limitations
+
+- All AI-generated code required developer integration and local testing.
+- Reported measurements depend on the tested environment and corpus.
+- Guardrails do not eliminate all prompt-injection risk.
+- LLM judge results are not independently verified factual accuracy.
+- Some retrieval relevance labels still require human auditing.
+- Cloud deployment and large-scale concurrency remain unverified.
+- A complete original ChatGPT conversation export has not been verified as submitted evidence.
+
+The developer retains responsibility for the final implementation, correctness, security, disclosure and assignment submission.
