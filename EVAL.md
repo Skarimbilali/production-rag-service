@@ -14,49 +14,49 @@
 
 The Production RAG Service is designed to answer questions using information retrieved from uploaded documents.
 
-The purpose of this evaluation is to measure retrieval quality, assess answer faithfulness, compare alternative chunking configurations, identify system failures, and document improvements introduced during development.
+Evaluation covers retrieval quality, answer faithfulness, chunking configurations, multi-document retrieval, failure analysis, and improvements made during development.
 
-A working demonstration alone is not sufficient to establish retrieval quality. The evaluation therefore includes quantitative retrieval metrics, an automated faithfulness judge, and manual testing using different documents.
-
-The evaluation was conducted in two stages:
+The work was completed in two main phases.
 
 **Phase 1 — Initial RAG Implementation**
 
 - PDF and DOCX ingestion
-- Document extraction and character-based chunking
+- Text extraction and overlapping chunking
 - Multilingual E5 embeddings
 - ChromaDB semantic retrieval
 - Groq answer generation
-- Citation handling and refusals
+- Citations and refusals
 - Golden-question retrieval evaluation
-- Chunk-size comparisons
+- Chunking experiments
 - LLM-as-a-Judge faithfulness evaluation
 
 **Phase 2 — Multi-Document Retrieval Improvements**
 
-- Diagnosis of retrieval failures involving two uploaded PDFs
+- Investigation of retrieval failures across two uploaded PDFs
 - Paragraph- and sentence-aware smart chunking
-- Improved PDF heading and table extraction
+- Improved PDF headings and table extraction
 - Dynamic source context
-- Hybrid semantic and keyword-based reranking
-- Improved conditional reasoning and answer grounding
-- Manual before-and-after testing
+- Hybrid semantic and keyword reranking
+- Improved grounded generation
+- Before-and-after manual tests
+- Controlled semantic-only versus hybrid retrieval comparison
 
-The results from Phase 1 and Phase 2 are reported separately to avoid presenting historical evaluation scores as measurements of the final hybrid implementation.
+The historical evaluation, chunking experiments, and new Phase 2 comparison are reported separately because they represent different experimental conditions.
 
 ---
 
 ## 2. Evaluation Objectives
 
-The evaluation addresses the following questions:
+The evaluation investigates:
 
-1. Does the retriever find the correct document evidence?
-2. Does relevant evidence appear within the final Top-K results?
-3. How does chunk size affect retrieval quality?
-4. Are generated answers supported by retrieved evidence?
-5. Does the system refuse unsupported questions?
-6. Can the system retrieve evidence correctly when multiple PDFs are uploaded?
-7. What failures remain after the Phase 2 improvements?
+1. Whether relevant evidence appears in the final Top-K results.
+2. How accurately the retriever ranks relevant chunks.
+3. How chunk size affects retrieval quality.
+4. Whether generated answers are supported by retrieved evidence.
+5. Whether unsupported questions produce appropriate refusals.
+6. Whether retrieval works across multiple uploaded PDFs.
+7. Whether hybrid retrieval improves performance compared with semantic-only retrieval.
+8. Which limitations remain after Phase 2.
 
 ---
 
@@ -68,8 +68,8 @@ The evaluation addresses the following questions:
 | Frontend | HTML, CSS, JavaScript |
 | PDF extraction | pypdf and pdfplumber |
 | DOCX extraction | python-docx |
-| Chunking baseline | 800 characters |
-| Chunk overlap | 150 characters |
+| Chunk size | 800 characters |
+| Chunk overlap | Approximately 150 characters |
 | Embedding model | `intfloat/multilingual-e5-small` |
 | Embedding dimensions | 384 |
 | Document embedding prefix | `passage:` |
@@ -77,146 +77,312 @@ The evaluation addresses the following questions:
 | Vector database | ChromaDB |
 | Similarity metric | Cosine |
 | Final retrieval depth | Top-K = 5 |
-| Similarity threshold | 0.30 |
 | LLM | Groq `openai/gpt-oss-20b` |
 | Faithfulness judge | Question-aware binary LLM judge |
 | Judge version | `v2_question_aware` |
 
 ### Phase 2 Retrieval Configuration
 
-The final Phase 2 implementation uses a hybrid retrieval approach.
+The updated retrieval system uses semantic candidate search followed by keyword-aware hybrid reranking.
 
-ChromaDB first identifies semantic candidates. The retrieval layer then considers keyword relevance and reranks the candidates before returning the final relevant chunks.
+The retriever examines candidate chunks from the indexed collection and selects the final Top-K results based on its combined relevance calculation.
 
-The implementation uses semantic and keyword relevance rather than relying exclusively on vector similarity.
+This approach was introduced to address cases where semantic similarity alone prioritized a less relevant document.
 
-This is important when multiple uploaded documents contain overlapping terminology.
+### Benchmark-Specific Configuration
 
-The candidate pool and final Top-K results are separate concepts: the system can examine more candidates internally before selecting the five chunks returned to the user.
+The new comparison executed on 25 November 2026 used:
+
+| Setting | Value |
+|---|---|
+| Top-K | 5 |
+| Similarity threshold | 0.0 |
+| Indexed PDFs | 2 |
+| Indexed chunks | 42 |
+| Semantic search | Direct ChromaDB vector retrieval |
+| Hybrid search | Phase 2 production retrieval |
+| Question set | Existing 25 golden questions |
+
+The benchmark threshold of **0.0** is specific to this experiment and must not be confused with other application configurations.
 
 ---
 
 ## 4. Evaluation Dataset
 
-The original golden dataset contains **25 questions**:
-
-| Question category | Count |
-|---|---:|
-| Answerable questions | 20 |
-| Unanswerable questions | 5 |
-| Total | 25 |
-
-The golden questions are stored in:
+The golden dataset is stored in:
 
 `evals/golden_questions.json`
 
-Questions include source-related and unsupported-answer cases.
+| Question category | Count |
+|---|---:|
+| Answerable | 20 |
+| Unanswerable | 5 |
+| Total | 25 |
 
-The golden set is intended to measure whether the system retrieves evidence from the correct document and whether answers are supported by that evidence.
+The original relevance labels identify chunk positions associated with the RAG Project Guide.
 
-### Test Documents
+### Test Document A — RAG Project Guide
 
-Two PDFs were also used in Phase 2 testing:
-
-**Document A: RAG Project Guide**
+**Filename:** `RAG_Project_Steps_Roman_Urdu.pdf`
 
 - Two-page project guide
-- Contains instructions and project requirements
-- Used in earlier chunking experiments
-- Used to test retrieval of project-related information
+- Contains project requirements and implementation instructions
+- Used in historical retrieval and chunking evaluation
+- Provides the original golden-question relevance labels
 
-**Document B: TechNova HR Policy Manual**
+### Test Document B — TechNova HR Policy Manual
 
-- Fourteen-page simulated company HR manual
-- Contains employee policies, eligibility conditions, leave entitlements, resignation rules, allowances and tables
-- Used to test reasoning, calculations and structured document retrieval
+**Filename:** `TechNova_HR_Policy_Manual.pdf`
 
-The combination was useful because the two PDFs contain different subjects and different document structures.
-
-This made it possible to observe whether the system retrieved content from the document relevant to each question.
+- Fourteen-page simulated HR manual
+- Contains leave policies, employment conditions, resignation rules, allowances, and structured tables
+- Used for multi-document retrieval, calculations, eligibility checks, and manual testing
 
 ### Dataset Limitations
 
-The original golden set is relatively small.
+The 25-question golden dataset remains relatively small.
 
-Its relevance labels have not been fully independently audited.
+Although two PDFs were indexed during the new benchmark, the existing relevance labels refer to the **RAG Project Guide only**.
 
-The original evaluation was not a comprehensive multi-document benchmark of the final hybrid system.
+Consequently, the comparison measures retrieval of the labelled guide evidence in a collection containing two documents. It is not yet a balanced benchmark of labelled questions from both documents.
+
+Furthermore, Phase 2 smart chunking may have changed the relationship between original chunk-position labels and the underlying evidence text. The latest evaluation script verifies that labelled positions exist, but this alone does not prove their semantic relevance.
+
+An independent relevance-label audit remains necessary.
 
 ---
 
 ## 5. Retrieval Evaluation Metrics
 
-Three standard retrieval metrics were used.
-
 ### 5.1 Hit Rate@K
 
-Hit Rate@K measures the proportion of questions for which at least one relevant document chunk appears within the first K retrieved chunks.
+Hit Rate@K measures the proportion of answerable questions for which at least one labelled relevant chunk appears among the first K results.
 
-A higher value indicates that relevant evidence is found more consistently.
+\[
+\text{Hit@K}=\frac{\text{Questions with at least one relevant result in Top-K}}{\text{Answerable questions}}
+\]
 
 ### 5.2 Recall@K
 
-Recall@K measures how much of the labelled relevant evidence is retrieved within the first K chunks.
+Recall@K measures the proportion of labelled relevant chunks recovered within the first K results.
 
-A higher value indicates that more of the expected evidence is recovered.
+\[
+\text{Recall@K}=\frac{\text{Relevant chunks retrieved in Top-K}}{\text{Total labelled relevant chunks}}
+\]
+
+The reported aggregate is the mean of per-question recall values.
 
 ### 5.3 Mean Reciprocal Rank (MRR@K)
 
-MRR measures how early the first relevant result appears in the ranked retrieval list.
+MRR@K measures how early the first relevant chunk appears.
 
-A relevant result appearing in position one receives a reciprocal rank of 1.0.
+\[
+\text{MRR@K}=\frac{1}{N}\sum_{i=1}^{N}\frac{1}{\text{rank}_i}
+\]
 
-A relevant result appearing in position two receives a reciprocal rank of 0.5.
+A question receives a reciprocal rank of zero when no relevant result appears within Top-K.
 
-Higher MRR indicates that relevant evidence tends to appear earlier.
+The new evaluator preserves the original ranked positions of all retrieved chunks, including chunks belonging to other documents.
+
+This avoids artificially improving MRR by first removing irrelevant-document results.
+
+### Treatment of Unanswerable Questions
+
+The five unanswerable questions are executed and their retrieval results are recorded.
+
+However, Hit@5, Recall@5, and MRR@5 are averaged over the **20 answerable questions**.
+
+Retrieval metrics alone cannot establish whether the generation system correctly refuses an unsupported question.
 
 ---
 
 ## 6. Original Golden-Set Retrieval Results
 
-The previously reported corrected golden-label evaluation produced:
+The historical corrected-label retrieval evaluation reported:
 
-| Metric | Result |
+| Metric | Historical result |
 |---|---:|
 | Hit@5 | 100.00% |
 | Recall@5 | 97.50% |
 | MRR@5 | 0.7958 |
 
-### Interpretation
+These results were reported before the final Phase 2 hybrid comparison.
 
-The historical evaluation indicated that relevant evidence appeared within the first five results for all questions counted in the Hit@5 measurement.
+They are retained as historical evaluation evidence.
 
-Recall@5 of 97.50% indicated that most labelled relevant evidence was recovered.
+They must not be presented as independently measured hybrid retrieval scores.
 
-MRR@5 of 0.7958 indicated that relevant evidence generally appeared near the top of the ranked results.
-
-### Important Qualification
-
-These numbers were recorded before the final Phase 2 hybrid retrieval modifications.
-
-They describe the earlier evaluation configuration.
-
-They are **not** a fresh measurement of the final hybrid retrieval pipeline.
-
-The results also depend on the correctness of the original relevance labels.
+The matching semantic-only values observed in the new experiment are reported separately in Section 7.
 
 ---
 
-## 7. Chunking Configuration Experiments
+## 7. Phase 2 — Semantic-Only vs Hybrid Retrieval Benchmark
+
+### 7.1 Objective
+
+The purpose of this experiment was to quantitatively compare the Phase 2 hybrid retriever with semantic-only retrieval under the same evaluation conditions.
+
+Both methods were tested using:
+
+- The same ChromaDB document collection
+- The same embedding model
+- The same 25 golden questions
+- The same Top-K value
+- The same retrieval threshold
+- The same existing relevance labels
+
+This comparison was executed on **25 November 2026**.
+
+### 7.2 Indexed Corpus
+
+The evaluation output confirmed:
+
+| Property | Observed value |
+|---|---|
+| Indexed documents | 2 PDFs |
+| Total indexed chunks | 42 |
+| Golden questions | 25 |
+| Answerable questions | 20 |
+| Unanswerable questions | 5 |
+| Top-K | 5 |
+| Threshold | 0.0 |
+
+The indexed PDFs were:
+
+1. `RAG_Project_Steps_Roman_Urdu.pdf`
+2. `TechNova_HR_Policy_Manual.pdf`
+
+The evaluation log confirmed successful execution of both retrieval strategies.
+
+### 7.3 Compared Retrieval Methods
+
+**Method A — Semantic-Only**
+
+The question is embedded with multilingual E5 and submitted directly to ChromaDB.
+
+Results are ranked using vector similarity without the Phase 2 keyword-based reranking step.
+
+**Method B — Hybrid**
+
+The question is processed through the Phase 2 retrieval implementation.
+
+Semantic candidates are retrieved and reranked using additional keyword relevance.
+
+The final Top-K chunks are then evaluated against the same golden labels.
+
+### 7.4 Actual Quantitative Results
+
+| Metric | Semantic-only | Hybrid | Difference |
+|---|---:|---:|---:|
+| Hit@5 | 100.00% | 100.00% | 0.00 percentage points |
+| Recall@5 | 97.50% | 100.00% | +2.50 percentage points |
+| MRR@5 | 0.7958 | 0.8750 | +0.0792 |
+
+**Measured result:** Hybrid retrieval achieved higher aggregate Recall@5 and MRR@5 on this evaluation set.
+
+Hit@5 remained unchanged because both methods retrieved at least one labelled relevant chunk for every answerable question.
+
+### 7.5 Interpretation
+
+**Hit@5**
+
+Both approaches achieved 100% Hit@5. Hybrid retrieval did not improve this metric because semantic-only retrieval already reached the maximum possible score on the current question set.
+
+**Recall@5**
+
+Semantic-only retrieval recovered 97.50% of labelled relevant evidence on average.
+
+Hybrid retrieval recovered 100.00%.
+
+This corresponds to a **2.50 percentage-point increase** in aggregate Recall@5.
+
+**MRR@5**
+
+Semantic-only retrieval achieved MRR@5 of 0.7958.
+
+Hybrid retrieval achieved MRR@5 of 0.8750.
+
+The increase of **0.0792** indicates that the first labelled relevant chunk generally appeared higher in the hybrid ranking.
+
+The relative MRR increase is approximately 9.95%, based on the reported rounded scores.
+
+### 7.6 Question-Level Findings
+
+The improvement was not uniform across every question.
+
+Examples of improved reciprocal ranking included:
+
+| Question | Semantic-only RR | Hybrid RR |
+|---|---:|---:|
+| Q002 | 0.3333 | 1.0000 |
+| Q003 | 0.2500 | 1.0000 |
+| Q004 | 0.5000 | 1.0000 |
+| Q005 | 0.5000 | 1.0000 |
+| Q015 | 0.5000 | 1.0000 |
+| Q019 | 0.5000 | 1.0000 |
+
+Some questions experienced lower reciprocal ranking under hybrid retrieval:
+
+| Question | Semantic-only RR | Hybrid RR |
+|---|---:|---:|
+| Q007 | 1.0000 | 0.5000 |
+| Q008 | 1.0000 | 0.5000 |
+| Q013 | 1.0000 | 0.5000 |
+| Q020 | 1.0000 | 0.5000 |
+
+This shows that hybrid reranking improved the aggregate score while occasionally moving relevant evidence down the result list.
+
+Future tuning should investigate these ranking regressions.
+
+### 7.7 Important Evaluation Limitation
+
+The script produced valid numerical output, but its golden labels have not yet been manually revalidated against the final smart-chunked source text.
+
+The evaluator checks whether expected chunk positions exist. It does not establish that those positions still correspond to the originally intended evidence.
+
+Therefore, these scores are **measured results using the current position-based labels**, not independently validated evidence-relevance measurements.
+
+Additionally, the golden questions primarily evaluate the project guide, even though the corpus contains a second HR document.
+
+The experiment supports a limited comparison of the two retrieval methods but does not demonstrate comprehensive multi-document answer accuracy.
+
+### 7.8 Evaluation Evidence
+
+**Script:**
+
+`evals/run_evals.py`
+
+**Generated results:**
+
+- `evals/results/retrieval_comparison.json`
+- `evals/results/retrieval_comparison.csv`
+
+**Command:**
+
+```powershell
+python evals/run_evals.py
+```
+
+**Additional configuration options:**
+
+```powershell
+python evals/run_evals.py --top-k 5 --threshold 0.0
+```
+
+The new result files are separate from historical retrieval results and do not overwrite the original evaluation evidence.
+
+---
+
+## 8. Chunking Configuration Experiments
 
 ### Objective
 
-The purpose of the chunking experiment was to compare alternative chunk sizes and overlaps using the same document and questions.
+Three chunking configurations were compared on the same small source document using 20 answerable questions.
 
-The experiment used:
-
-- Document: `RAG_Project_Steps_Roman_Urdu.pdf`
-- Embedding model: `intfloat/multilingual-e5-small`
-- Vector database: Temporary ChromaDB collections
-- Similarity metric: Cosine
-- Evaluation questions: 20 answerable questions
-- Relevance labels: Provisional evidence-phrase matching
+**Document:** `RAG_Project_Steps_Roman_Urdu.pdf`
+**Embedding model:** `intfloat/multilingual-e5-small`
+**Vector database:** Temporary ChromaDB collections
+**Relevance labels:** Provisional evidence-phrase matching
 
 ### Compared Configurations
 
@@ -226,7 +392,7 @@ The experiment used:
 | B | 512 | 80 | 11 |
 | C | 800 | 150 | 7 |
 
-### Top-5 Retrieval Results
+### Top-5 Results
 
 | Configuration | Hit@5 | Recall@5 | MRR@5 |
 |---|---:|---:|---:|
@@ -234,7 +400,7 @@ The experiment used:
 | B — 512/80 | 100.00% | 86.25% | 0.7283 |
 | C — 800/150 | 100.00% | 95.00% | 0.8583 |
 
-### Top-3 Retrieval Results
+### Top-3 Results
 
 | Configuration | Hit@3 | Recall@3 | MRR@3 |
 |---|---:|---:|---:|
@@ -244,32 +410,24 @@ The experiment used:
 
 ### Decision
 
-Configuration C achieved the strongest retrieval results in the preliminary experiment.
+Configuration C performed best in this preliminary experiment.
 
-The project therefore retained the baseline:
+The project therefore retained:
 
-- **Chunk size: 800 characters**
-- **Overlap: 150 characters**
+- Chunk size: **800 characters**
+- Chunk overlap: **150 characters**
+
+The Phase 2 implementation subsequently improved chunk boundaries by considering paragraphs and sentences.
 
 ### Trade-offs
 
-Smaller chunks may provide more precise evidence but can lose context that spans multiple sentences.
+Smaller chunks can improve evidence precision but may fragment relevant context.
 
-Larger chunks may preserve more context but can include unrelated information.
+Larger chunks can preserve context but may contain unrelated material.
 
-The 800-character configuration performed best in the evaluated small document.
+The experiment used only one small two-page document, so these findings should not be generalized to all document collections.
 
-This does not establish that the same configuration is optimal for every document or corpus.
-
-### Limitations
-
-The experiment used one small two-page PDF.
-
-Relevance labels were based on selected evidence phrases rather than a fully independently verified annotation set.
-
-Generation quality, latency and cost were not separately compared for each chunking configuration.
-
-### Evidence Files
+### Evidence
 
 - `evals/run_chunk_experiments.py`
 - `evals/results/chunk_experiments.json`
@@ -277,42 +435,40 @@ Generation quality, latency and cost were not separately compared for each chunk
 
 ---
 
-## 8. Answer Faithfulness Evaluation
+## 9. Answer Faithfulness Evaluation
 
 ### Objective
 
-The purpose of faithfulness evaluation was to check whether generated answers were supported by the retrieved document evidence.
+Faithfulness evaluation checks whether generated answers are supported by their retrieved evidence.
 
-The project implemented a question-aware LLM judge.
+The project uses a question-aware LLM-as-a-Judge implementation.
 
-### Judge Methodology
+### Methodology
 
-For each answerable golden question, the evaluator:
+For each answerable question, the evaluator:
 
-1. Retrieves relevant document chunks.
-2. Generates an answer using the RAG service.
-3. Provides the original question, answer and retrieved evidence to the judge.
+1. Retrieves supporting document chunks.
+2. Generates an answer.
+3. Submits the question, answer, and evidence to the judge.
 4. Requests a structured JSON judgment.
-5. Records the judgment and explanation.
-6. Saves results to JSON.
+5. Records whether the answer is faithful.
+6. Saves the result and judge explanation.
 
-The judge is instructed to mark an answer unfaithful when factual claims contradict or exceed the supplied evidence.
-
-The original question is included to help interpret short or numerical answers.
+The judge is instructed to reject answers that contradict the retrieved source or introduce unsupported factual claims.
 
 ### Judge Configuration
 
 | Property | Value |
 |---|---|
 | Judge type | Binary LLM-as-a-Judge |
-| Judge version | `v2_question_aware` |
-| LLM provider | Groq |
+| Version | `v2_question_aware` |
+| Provider | Groq |
 | Model | `openai/gpt-oss-20b` |
-| Output | JSON |
-| Primary judgment | `faithful: true/false` |
-| Explanation | `reason` |
+| Output format | JSON |
+| Judgment | `faithful: true/false` |
+| Explanation field | `reason` |
 
-### Previously Reported Faithfulness Results
+### Previously Reported Results
 
 | Metric | Result |
 |---|---:|
@@ -324,202 +480,142 @@ The original question is included to help interpret short or numerical answers.
 | LLM-judged faithfulness | 100.00% |
 | Mixed judge versions | False |
 
-### Interpretation
+### Interpretation and Limitations
 
-The judge classified all 20 evaluated answers as supported by the retrieved evidence.
+All 20 evaluated answers were classified as faithful by the automated judge.
 
-This is an **LLM-judged faithfulness result**, not an independent guarantee of factual accuracy.
+This is a judge classification result, not an independent guarantee of factual correctness.
 
-The same model family was used for answer generation and judging.
+The judge was not fully calibrated against a human-annotated reference dataset.
 
-### Judge Reliability Limitations
+The same model family was used for generation and judging, which introduces potential correlated errors.
 
-The judge was not independently validated against a separate human-labelled set.
-
-The evaluation did not establish judge precision, recall or inter-annotator agreement.
-
-A judge may incorrectly accept unsupported claims or reject answers that are actually valid.
-
-The evaluation also did not independently measure correctness against every reference answer.
-
-Therefore, the 100% faithfulness result must not be interpreted as 100% real-world answer accuracy.
-
-### Evaluation Script
-
-`evals/run_faithfulness.py`
-
-The script supports:
-
-- Answer generation
-- Faithfulness judging
-- Retry and backoff for Groq rate limits
-- Checkpoint saving
-- Resuming interrupted evaluations
-- Rejudging selected questions
-- Saving final JSON results
+Answer correctness against every reference answer was not independently measured.
 
 ### Commands
 
-```bash
+Run the evaluation:
+
+```powershell
 python evals/run_faithfulness.py
 ```
 
-To rejudge an existing question:
+Rejudge a selected question:
 
-```bash
+```powershell
 python evals/run_faithfulness.py --rejudge Q016
 ```
 
-### Evidence Files
+### Evidence
 
 - `evals/golden_questions.json`
 - `evals/run_faithfulness.py`
 - `evals/results/faithfulness_results.json`
 
-Checkpoint files may also exist locally; their presence in Git must be verified before citing them as submitted evidence.
+Checkpoint files may also exist locally. Their inclusion in Git must be verified before using them as submitted evidence.
 
 ---
 
-## 9. Phase 2 — Multi-Document Retrieval Problem
+## 10. Phase 2 — Multi-Document Retrieval Problem
 
-### 9.1 Initial Behavior
+### Initial Behavior
 
-During the initial implementation, the RAG service was able to answer questions using an uploaded PDF.
+The RAG application initially answered questions about the uploaded document correctly.
 
-A second PDF was then uploaded into the same document collection.
+After uploading another PDF, certain questions associated with the second document failed even though the information existed in the indexed collection.
 
-The system continued answering questions from the first document, but some questions associated with the second document failed despite the relevant information existing in the uploaded files.
+### Diagnosis
 
-This exposed a multi-document retrieval quality problem.
+Inspection of retrieval results showed that relevant evidence was sometimes absent from the final Top-K results.
 
-### 9.2 Diagnosis
+The retriever occasionally preferred semantically similar content from another document.
 
-The retrieved chunks and their rankings were inspected.
+When the answer evidence was absent from the final context, the generation model could incorrectly refuse the question.
 
-The investigation showed that the required evidence was not always included in the final Top-K results.
-
-In some cases, semantic retrieval prioritized chunks from a less relevant document.
-
-This meant the generation layer did not receive the evidence required to answer the user's question.
-
-Consequently, the LLM could return a refusal even though the answer existed in the indexed document collection.
-
-### 9.3 Root Cause
+### Root Cause
 
 The principal observed issue was **retrieval ranking across multiple indexed documents**.
 
-The problem was not simply a failed document upload.
+The second upload had not simply failed. The content existed in the collection, but it was not always prioritized appropriately.
 
-Both PDFs were accessible to the retrieval system, but the ranking of semantically similar chunks did not always correspond to the user's intended question.
+### Example Failures
 
-This distinction was important during debugging.
+**Promotion eligibility:** A policy required 18 months in the current grade. A question involving 15 months of service initially failed to retrieve the necessary evidence consistently.
 
-### 9.4 Example Failure Cases
+**Probation resignation:** The correct seven-day written notice policy was initially missing from the final retrieval context.
 
-The following questions exposed problems during manual testing:
-
-**Promotion eligibility**
-
-The employee had completed 15 months in the current grade and had strong performance ratings.
-
-The relevant policy required at least 18 months, but initial retrieval did not consistently return the required evidence.
-
-**Probation resignation**
-
-The HR manual contained the required written notice period.
-
-Initial retrieval failed to bring the relevant policy into the final context, causing a refusal.
-
-**International travel hotel limit**
-
-The system incorrectly interpreted an international per diem allowance as an international hotel limit.
-
-This was a generation-grounding and table-interpretation issue in addition to retrieval relevance.
+**International hotel limit:** The system confused an international per diem amount with a hotel limit, exposing a structured-table interpretation and grounding problem.
 
 ---
 
-## 10. Phase 2 — Improvements Implemented
+## 11. Phase 2 — Improvements Implemented
 
-Five implementation areas were improved.
-
-### 10.1 Smart Chunking
+### 11.1 Smart Chunking
 
 **File:** `app/ingestion/chunker.py`
 
-The chunking logic was improved to consider paragraph and sentence boundaries.
+The chunking algorithm was improved to consider paragraph and sentence boundaries.
 
-The goal was to preserve related information and reduce fragmentation of important policy conditions.
+The purpose was to preserve related policy statements and reduce fragmentation of eligibility conditions.
 
-The system retained the existing 800-character chunk size and approximately 150-character overlap configuration.
-
-### 10.2 Dynamic Source Context
+### 11.2 Dynamic Source Context
 
 **File:** `app/ingestion/service.py`
 
-Chunks received additional dynamic source context based on their originating document.
-
-Relevant context includes:
+The ingestion pipeline adds contextual information derived from the source document, including:
 
 - Filename
 - Page
 - Section, when detected
 
-This makes source information more explicit during retrieval and generation.
+The context is generated dynamically rather than being hardcoded for a specific PDF.
 
-The values are derived from uploaded documents rather than hardcoded for a specific PDF.
-
-### 10.3 Improved PDF Extraction
+### 11.3 Improved PDF Extraction
 
 **File:** `app/ingestion/extractor.py`
 
-Extraction improvements included:
+Improvements include:
 
-- Better numbered-section detection
-- Structured PDF table extraction
-- Preserving useful page-level information
-- Clearer handling of unreadable or scanned PDFs
+- Numbered-section detection
+- PDF table extraction
+- Better page-level information
+- Handling unreadable or scanned documents
 
-`pdfplumber` was introduced for improved table extraction.
+During TechNova manual testing, extraction returned 20 sections and identified six structured tables.
 
-During testing of the TechNova HR manual, the extractor returned 20 sections and identified six structured tables.
-
-### 10.4 Hybrid Retrieval and Reranking
+### 11.4 Hybrid Retrieval and Reranking
 
 **File:** `app/vector_store/store.py`
 
-The retrieval pipeline was enhanced to combine semantic similarity with keyword relevance.
-
-The revised approach:
+The retrieval pipeline:
 
 1. Generates a query embedding.
-2. Retrieves a broader semantic candidate set from ChromaDB.
+2. Retrieves semantic candidates from ChromaDB.
 3. Calculates keyword relevance.
-4. Combines semantic and keyword evidence for reranking.
-5. Returns the final relevant Top-K chunks.
+4. Reranks candidates using semantic and keyword signals.
+5. Returns the final Top-K evidence chunks.
 
-The search operates across uploaded documents without requiring the user to manually select a PDF.
+The 25 November benchmark provides quantitative evidence of improved aggregate Recall@5 and MRR@5 under the stated evaluation conditions.
 
-The implementation uses a weighted combination of semantic and keyword relevance for reranking.
-
-### 10.5 Grounded Generation Improvements
+### 11.5 Grounded Generation
 
 **File:** `app/generation/generator.py`
 
-The generation instructions were improved to support:
+Generation instructions were improved for:
 
+- Eligibility conditions
 - Conditional reasoning
-- Policy eligibility checks
-- Table-column interpretation
+- Table interpretation
 - Numeric calculations
 - Currency and unit distinctions
-- Correction of false assumptions
-- Refusal when requested information is absent
+- False premises
+- Refusal when evidence is absent
 
-These changes were intended to reduce unsupported conclusions when relevant evidence was retrieved.
+These changes help reduce unsupported answers when relevant evidence is retrieved.
 
 ---
 
-## 11. Updated Phase 2 Retrieval Flow
+## 12. Updated Phase 2 Retrieval Flow
 
 ```text
 User Question
@@ -540,7 +636,7 @@ Keyword Relevance Calculation
 Hybrid Reranking
       |
       v
-Final Top-K Evidence Chunks
+Final Top-K Evidence
       |
       v
 Groq Grounded Answer Generation
@@ -555,45 +651,25 @@ Output Guardrails
 Answer with Sources / Refusal
 ```
 
-The revised pipeline is designed to improve retrieval relevance when the indexed collection contains multiple PDFs.
-
-It does not guarantee that every relevant chunk will appear in every result.
+This architecture improves evidence selection, but it does not guarantee perfect retrieval, reasoning, or citation correctness.
 
 ---
 
-## 12. Phase 2 — Before-and-After Manual Testing
-
-The following table summarizes observed behavior before and after the Phase 2 retrieval and generation improvements.
+## 13. Phase 2 — Before-and-After Manual Testing
 
 | Test case | Before improvements | After improvements |
 |---|---|---|
-| Promotion with 15 months in grade | Incorrect refusal | Correctly identifies that 18-month requirement is unmet |
+| Promotion with 15 months in grade | Incorrect refusal | Correctly identifies unmet 18-month requirement |
 | Resignation during probation | Incorrect refusal | Correctly identifies seven days' written notice |
-| International hotel limit | Incorrectly uses international per diem as hotel limit | Correctly states that international hotel limit is not specified |
+| International hotel limit | Confused per diem with hotel limit | Correctly states the limit is unspecified |
 
-### Retrieval Diagnostics
+These are manually observed examples.
 
-During investigation:
-
-- The promotion policy evidence was previously ranked outside the required Top-K context.
-- The probation policy was not consistently returned among the first relevant results.
-- After hybrid reranking, the corresponding policy evidence appeared substantially higher in the inspected rankings.
-
-These findings explain why retrieval configuration mattered.
-
-### Evaluation Qualification
-
-The before-and-after observations came from manual live tests.
-
-They demonstrate improvements for the tested questions.
-
-They do **not** constitute a complete controlled benchmark with aggregate before-and-after Hit@5, Recall@5 and MRR@5 values.
+They complement the quantitative retrieval comparison but do not replace a comprehensive question-answer accuracy benchmark.
 
 ---
 
-## 13. Additional TechNova HR Manual Testing
-
-The following questions were also tested after the Phase 2 improvements.
+## 14. Additional TechNova HR Manual Testing
 
 | Question area | Observed answer |
 |---|---|
@@ -602,56 +678,46 @@ The following questions were also tested after the Phase 2 improvements.
 | Maternity application | At least four weeks before expected delivery |
 | G4 hospitalization limit | PKR 1,000,000 |
 | G4 domestic hotel limit | PKR 30,000 |
-| Performance bonus with PKR 150,000 basic salary and rating 4 | PKR 300,000, subject to eligibility |
+| Rating 4 bonus on PKR 150,000 basic salary | PKR 300,000, subject to eligibility |
 | One Eid bonus on PKR 150,000 basic salary | PKR 150,000 |
 | Employee provident fund contribution at 8% | PKR 12,000 |
 | G4 resignation notice | 60 days |
 
-These examples show that the service can combine information from policy text, tables and numerical rules.
+These tests demonstrate observed retrieval of policy facts, calculations, and table values.
 
-However, not every answer's citations were independently audited.
+Not every generated answer and citation has been independently audited.
 
 ---
 
-## 14. Second PDF — Project Guide Testing
+## 15. Second PDF — Project Guide Testing
 
-The RAG Project Guide was also used for live questions about:
+Manual questions included:
 
 - Golden-question distribution
-- Ingestion configuration described in the guide
-- Retrieval methods and comparison metrics
-- API tests and performance requirements
-- Existence of a numbered Step 13
+- Project ingestion requirements
+- Retrieval methods and metrics
+- API requirements
+- Numbered project steps
 
-The guide's numbered instructions ended at Step 12.
+The guide ended at Step 12.
 
-When asked about Step 13, the system returned an insufficient-evidence refusal.
+When asked about Step 13, the service correctly refused because the requested step was not present.
 
-This was a useful negative test because the requested section did not exist.
+This demonstrated appropriate behavior for the tested unsupported question.
 
-The remaining guide-related answers were observed during manual testing but were not included in a complete independent source-by-source audit.
-
-### Important Distinction
-
-The guide contains recommended technologies and settings.
-
-These should not be confused with the project's actual implementation.
-
-For example, the implementation uses ChromaDB and multilingual E5, regardless of alternative tools or chunking configurations described inside the uploaded guide.
+The requirements described inside the uploaded project guide must not be confused with the application's actual implementation choices.
 
 ---
 
-## 15. Frontend Retrieval Verification
-
-A successful frontend retrieval test was observed using the TechNova HR manual.
+## 16. Frontend Retrieval Verification
 
 ### Question
 
 How many annual leave days are allowed?
 
-### Generated Answer
+### Observed Answer
 
-20 working days
+**20 working days**
 
 ### Citations
 
@@ -668,246 +734,256 @@ How many annual leave days are allowed?
 | 4 | 83.51% | 5 |
 | 5 | 79.24% | 14 |
 
-The frontend displayed five retrieved chunks, their source text, filenames, page numbers and individual similarity scores.
+The browser interface displayed:
 
-The cited evidence on page 5 supported the annual leave answer.
+- Generated answer
+- Source citations
+- Five retrieved chunks
+- Source text
+- Filename and page metadata
+- Individual similarity scores
 
-The results also included less directly relevant chunks, indicating that retrieval precision can still improve.
+This verifies the required frontend display functionality for the observed test case.
 
-This confirms the required frontend display functionality for the observed test case.
+Some retrieved chunks were less directly relevant, indicating remaining opportunities to improve retrieval precision.
 
 ---
 
-## 16. Evaluation Framework Selection
+## 17. Evaluation Framework Selection
 
 ### Chosen Approach
 
-The project uses custom Python retrieval-evaluation scripts and a question-aware LLM-as-a-Judge implementation.
+Custom Python evaluation scripts were selected because they integrate directly with the application.
 
-### Reasons for Selection
+They support:
 
-- Integrates directly with the existing application code.
-- Supports reproducible retrieval experiments.
-- Allows question-level inspection.
-- Saves machine-readable JSON and CSV outputs.
-- Supports checkpointing and recovery.
-- Provides traceable judge explanations.
+- Controlled retrieval comparisons
+- Per-question diagnostics
+- JSON and CSV evidence
+- Faithfulness judgments
+- Checkpoints and resume functionality
+- Explicit experimental configuration
 
-### Alternative Frameworks
+### Alternative — RAGAS
 
-**RAGAS**
+RAGAS provides standardized RAG quality metrics.
 
-RAGAS offers standardized RAG evaluation metrics and would be useful for additional answer-quality measurement.
+It was considered a possible additional framework but is not claimed to have produced the reported results.
 
-It is not claimed as an executed framework for the historical results in this report.
+### Alternative — Langfuse
 
-**Langfuse**
+Langfuse offers tracing and observability for model calls, retrieval, latency, and costs.
 
-Langfuse offers tracing and observability for retrieval, model calls, latency and token usage.
-
-It is not claimed as an implemented component of this project.
+It is not claimed as an implemented component.
 
 ### Trade-offs
 
-The custom evaluation approach provides implementation control but requires additional work to validate correctness, benchmark consistency and judge reliability.
+The custom approach offers flexibility and direct control over metrics.
 
-A standardized evaluation framework can improve comparability, although it still requires high-quality source data and careful interpretation.
+However, its labels, experimental setup, and judge reliability require independent validation.
 
 ---
 
-## 17. Testing Evidence
+## 18. Testing Evidence
 
-The latest previously reported automated regression result was:
+The latest previously reported pytest regression result was:
 
 **35 tests passed.**
 
-The test suite covers implemented functionality across ingestion, retrieval, vector storage, generation and guardrails.
+Run:
 
-This result was reported after the Phase 2 retrieval modifications.
+```powershell
+python -m pytest -q
+```
 
-### Mandatory Jupyter Notebooks
-
-Two Jupyter notebooks were subsequently created and pushed to the development branch.
-
-**Notebook 1**
+### Jupyter Notebook 1
 
 `notebooks/01_ingestion_pipeline.ipynb`
 
-Covers extraction, chunking, metadata and embeddings.
+Covers extraction, chunking, metadata, and embeddings.
 
-Its successful execution reported:
+Previously observed:
 
 - Three document embeddings
 - 384-dimensional document vectors
 - 384-dimensional query embedding
 - `NOTEBOOK 1: PASSED`
 
-**Notebook 2**
+### Jupyter Notebook 2
 
 `notebooks/02_retrieval_generation.ipynb`
 
-Covers document indexing, retrieval, answer generation, citations and refusal behavior.
+Covers indexing, retrieval, generation, citations, and refusal.
 
-The saved notebook was checked and reported:
+Previously reported:
 
 - Seven code cells
 - Seven executed cells
 - Zero saved cell errors
 
-A Windows-specific ChromaDB temporary-file cleanup issue was identified and the final cleanup step was adjusted to defer deletion while database files remained open.
+A Windows-specific ChromaDB temporary-file cleanup issue was addressed by deferring deletion while database files were open.
 
-The notebook results were committed in development commit:
+**Notebook development commit:** `523c30a`
 
-`523c30a`
-
-### Verification Limitations
-
-Executed notebook cells are evidence of pipeline execution, but do not independently establish general answer quality.
-
-The exact Groq answer and source correctness from Notebook 2 require separate review if used as evaluation evidence.
+Successful notebook execution does not independently establish overall answer correctness.
 
 ---
 
-## 18. Error Analysis
+## 19. Error Analysis
 
-### Failure 1 — Relevant Evidence Missing from Final Top-K
+### Failure 1 — Missing Relevant Evidence
 
-**Observed behavior:** Questions about existing HR policies were refused.
+**Problem:** Existing HR policy questions sometimes received refusals.
 
-**Cause:** Relevant chunks did not consistently rank within the final context.
+**Cause:** Relevant evidence ranked outside the final context.
 
-**Improvement:** Broader semantic candidate retrieval and hybrid keyword reranking.
+**Improvement:** Broader semantic candidates and keyword-aware hybrid reranking.
 
-### Failure 2 — Confusion Between Related Table Values
+### Failure 2 — Table Value Confusion
 
-**Observed behavior:** International per diem allowance was interpreted as an international hotel limit.
+**Problem:** International per diem was mistaken for a hotel limit.
 
-**Cause:** Incorrect interpretation of related values in a structured table.
+**Cause:** Incorrect interpretation of related table values.
 
-**Improvement:** Better structured extraction and more precise generation instructions.
+**Improvement:** Better structured extraction and grounded generation instructions.
 
-### Failure 3 — Less Relevant Retrieved Chunks
+### Failure 3 — Irrelevant Retrieved Chunks
 
-**Observed behavior:** Some retrieved chunks contained information only indirectly related to the question.
+**Problem:** Some returned chunks were only indirectly relevant.
 
-**Cause:** Similarity retrieval and reranking are approximate.
+**Cause:** Approximate ranking and incomplete relevance discrimination.
 
-**Remaining work:** Improve relevance calibration and benchmark retrieval precision.
+**Remaining work:** Better ranking calibration and precision evaluation.
 
-### Failure 4 — Evaluation Limitations
+### Failure 4 — Ranking Regressions
 
-**Observed issue:** Strong historical results did not fully represent the newer multi-document hybrid retrieval configuration.
+**Problem:** Hybrid retrieval ranked the first relevant result lower for Q007, Q008, Q013, and Q020.
 
-**Remaining work:** Use a controlled evaluation with the same questions and corpus for both retrieval strategies.
+**Evidence:** Question-level reciprocal ranks from the latest comparison.
+
+**Remaining work:** Investigate keyword-weight effects and improve reranking.
+
+### Failure 5 — Golden Label Validity
+
+**Problem:** Position-based relevance labels may no longer correspond perfectly to evidence after smart chunking.
+
+**Remaining work:** Inspect source text for each labelled chunk and update the golden dataset where required.
 
 ---
 
-## 19. Reproducibility
+## 20. Reproducibility
 
-### Python Environment
+### Install Dependencies
 
-Install the project's pinned dependencies:
-
-```bash
+```powershell
 python -m pip install -r requirements.txt
 ```
 
 ### Run Automated Tests
 
-```bash
+```powershell
 python -m pytest -q
+```
+
+### Run Semantic vs Hybrid Retrieval Evaluation
+
+```powershell
+python evals/run_evals.py
 ```
 
 ### Run Chunking Experiments
 
-```bash
+```powershell
 python evals/run_chunk_experiments.py
 ```
 
 ### Run Faithfulness Evaluation
 
-```bash
+```powershell
 python evals/run_faithfulness.py
 ```
 
 ### Rejudge One Question
 
-```bash
+```powershell
 python evals/run_faithfulness.py --rejudge Q016
 ```
 
-### Reproducibility Requirements
+### Reproducibility Conditions
 
-Before running the complete evaluation:
+For meaningful comparisons:
 
-1. Configure the required environment variables.
-2. Ensure the intended evaluation documents are available.
-3. Ensure the vector database contains the correct indexed corpus.
-4. Check that the golden question labels correspond to that corpus.
-5. Record the current retrieval configuration.
-6. Avoid reusing checkpoints produced under incompatible code or corpus configurations.
-7. Save and review generated result files.
+1. Use the intended PDF documents.
+2. Use the same embedding model.
+3. Keep the indexed corpus unchanged between retrieval methods.
+4. Use the same question set.
+5. Use the same Top-K and threshold.
+6. Validate golden relevance labels against the indexed chunks.
+7. Record retrieval configuration and evaluation output.
+8. Avoid mixing checkpoints from incompatible experiments.
 
-### Remaining Automation Gap
+### Automation Status
 
-A single independently verified command that executes the complete retrieval, answer-quality and configuration-comparison evaluation has not yet been demonstrated.
+The retrieval comparison now has a working command:
 
-The separate scripts above represent the documented existing workflow.
+`python evals/run_evals.py`
 
-The latest hybrid implementation requires a fresh controlled evaluation before final comparative metrics can be reported.
+Separate scripts remain necessary for chunking experiments and LLM faithfulness evaluation.
+
+A single independently verified command executing every evaluation category has not yet been demonstrated.
 
 ---
 
-## 20. Known Evaluation Limitations
+## 21. Known Evaluation Limitations
 
-The following limitations remain:
+The project has quantitative retrieval results and manually observed functional improvements.
 
-- Small initial evaluation corpus.
-- Limited golden-question coverage.
-- Provisional evidence relevance labels.
-- Incomplete independent answer correctness verification.
-- Incomplete validation of LLM judge reliability.
-- No controlled aggregate semantic-only versus hybrid benchmark.
-- No complete multi-document accuracy benchmark.
+However, limitations remain:
+
+- Only 25 original golden questions.
+- Original relevance labels belong to one source document.
+- Chunk-position labels require a post-chunking audit.
+- No balanced labelled evaluation across both PDFs.
+- No independently verified reference-answer correctness score.
+- Incomplete calibration of the LLM faithfulness judge.
+- No aggregate generation/refusal accuracy for all unanswerable questions.
+- No formal retrieval latency distribution.
+- No end-to-end p50/p95 latency benchmark.
 - No formal concurrency or load-testing results.
 - No independent production scalability measurements.
-- Citation IDs are checked, but not all individual claims are independently verified against cited text.
-- OCR for scanned PDFs is not implemented.
-- Retrieval performance can vary across languages, document formats and question phrasing.
+- Not every citation claim has been checked against its evidence text.
+- No OCR support for scanned PDFs.
+- Retrieval accuracy may vary across languages, layouts, and question styles.
 
-These limitations are documented to prevent overstatement of system capabilities.
+The new comparison is useful measured evidence, but its methodological limitations must remain visible.
 
 ---
 
-## 21. Recommended Future Evaluation
+## 22. Recommended Future Evaluation
 
-Future evaluation should use a fixed multi-document corpus and an expanded golden dataset.
+Future work should expand the benchmark to include labelled questions for both the RAG Project Guide and the TechNova HR Manual.
 
-It should compare:
+The expanded evaluation should compare semantic-only and hybrid retrieval on identical questions and documents.
 
-- Semantic-only retrieval
-- Hybrid semantic and keyword retrieval
-
-Both configurations should use identical documents, reference answers and evaluation questions.
-
-The comparison should report:
+Metrics should include:
 
 - Hit@5
 - Recall@5
 - MRR@5
+- Precision@5
 - Answer correctness
-- Faithfulness
-- Unanswerable-question accuracy
+- Answer faithfulness
+- Unanswerable-question refusal accuracy
 - Retrieval latency
-- End-to-end answer latency
+- End-to-end generation latency
 
-A manually audited sample should be used to assess judge reliability.
+The evaluation should also include manually audited relevance labels and judge calibration.
 
-The system should also be tested with contradictory documents, scanned PDFs, longer files and multilingual questions.
+Additional test cases should cover contradictory documents, scanned PDFs, larger files, multilingual questions, and prompt injection.
 
 ---
 
-## 22. Evaluation Evidence and References
+## 23. Evaluation Evidence and References
 
 ### Application Files
 
@@ -922,8 +998,11 @@ The system should also be tested with contradictory documents, scanned PDFs, lon
 ### Evaluation Files
 
 - `evals/golden_questions.json`
+- `evals/run_evals.py`
 - `evals/run_chunk_experiments.py`
 - `evals/run_faithfulness.py`
+- `evals/results/retrieval_comparison.json`
+- `evals/results/retrieval_comparison.csv`
 - `evals/results/chunk_experiments.json`
 - `evals/results/chunk_experiments.csv`
 - `evals/results/faithfulness_results.json`
@@ -945,24 +1024,32 @@ The system should also be tested with contradictory documents, scanned PDFs, lon
 
 ---
 
-## 23. Conclusion
+## 24. Conclusion
 
-The Production RAG Service has been evaluated using retrieval metrics, chunking experiments, automated faithfulness judgments and manual document-question testing.
+The Production RAG Service has been evaluated using golden-question retrieval metrics, chunking comparisons, automated faithfulness judgments, manual document testing, and a controlled semantic-only versus hybrid retrieval experiment.
 
-The historical golden-set evaluation reported:
+The historical retrieval evaluation reported:
 
-- **Hit@5: 100.00%**
-- **Recall@5: 97.50%**
-- **MRR@5: 0.7958**
+- Hit@5: **100.00%**
+- Recall@5: **97.50%**
+- MRR@5: **0.7958**
 
-The preliminary chunking comparison supported retaining the 800-character chunk size and 150-character overlap.
+The preliminary chunking experiment supported an 800-character chunk size with 150-character overlap.
 
-The question-aware LLM judge classified 20 of 20 evaluated answers as faithful, subject to the limitations of automated judging.
+The question-aware automated judge classified 20 of 20 evaluated answers as faithful, subject to the limitations of LLM-based judging.
 
-During Phase 2, a multi-document retrieval problem was identified after uploading a second PDF. The system sometimes prioritized evidence from a less relevant document, causing failures on questions whose answers existed in the collection.
+Phase 2 investigated and improved a multi-document retrieval problem through smart chunking, better source metadata, PDF table extraction, hybrid reranking, and stronger grounding instructions.
 
-The problem was investigated through retrieved chunk rankings and addressed through smart chunking, better source context, structured PDF extraction, hybrid reranking and improved generation instructions.
+The **25 November 2026 retrieval comparison** produced:
 
-Manual testing demonstrated improvements in previously failing questions.
+| Metric | Semantic-only | Hybrid |
+|---|---:|---:|
+| Hit@5 | 100.00% | 100.00% |
+| Recall@5 | 97.50% | 100.00% |
+| MRR@5 | 0.7958 | 0.8750 |
 
-**The project therefore demonstrates a functioning, measured RAG implementation with documented improvements, while recognizing that the final hybrid system still requires a controlled quantitative benchmark and independent answer-quality validation before production-grade accuracy can be claimed.**
+These results show improved aggregate recall and ranking under the tested conditions.
+
+However, the existing golden questions primarily evaluate one document, and the chunk-position relevance labels require independent verification after Phase 2 chunking changes.
+
+**Overall conclusion:** The project demonstrates a functioning, tested RAG pipeline with measurable retrieval improvements. Broader multi-document evaluation and independently validated answer quality remain necessary before production-grade accuracy can be claimed.
