@@ -7,25 +7,25 @@ from app.generation.generator import GenerationService
 
 
 class FakeLLM:
-    """
-    Mock LLM used for testing without calling Groq.
-
-    This avoids API cost and makes tests reproducible.
-    """
+    """Mock LLM for repeatable tests without Groq API calls."""
 
     def __init__(self, response: str):
         self.response = response
         self.call_count = 0
+        self.last_messages = None
 
-    async def generate(self, messages: list[dict[str, str]]) -> str:
-        """Return a predefined response instead of calling an API."""
+    async def generate(
+        self,
+        messages: list[dict[str, str]],
+    ) -> str:
         self.call_count += 1
+        self.last_messages = messages
         return self.response
 
 
 @pytest.fixture
 def sample_chunks() -> list[dict]:
-    """Provide a retrieved chunk with valid source metadata."""
+    """Provide document evidence with valid source metadata."""
     return [
         {
             "id": "document-123-0",
@@ -34,136 +34,276 @@ def sample_chunks() -> list[dict]:
                 "document_id": "document-123",
                 "filename": "policy.pdf",
                 "page": 1,
-                "chunk_position": 0
+                "chunk_position": 0,
             },
-            "similarity_score": 0.92
+            "similarity_score": 0.92,
         }
     ]
 
 
-@pytest.mark.asyncio
-async def test_valid_answer_with_citation(sample_chunks):
-    """A valid source ID must map to the retrieved chunk."""
-    fake_llm = FakeLLM(
-        json.dumps({
-            "answer": "Employees receive 20 annual leave days.",
-            "citations": ["S1"]
-        })
-    )
+class TestLanguageDetection:
+    """Check language selection without calling an LLM."""
 
-    service = GenerationService(fake_llm.generate)
-
-    result = await service.generate_answer(
-        "How many annual leave days do employees receive?",
-        sample_chunks
-    )
-
-    assert result["answer"] == "Employees receive 20 annual leave days."
-    assert result["retrieved_count"] == 1
-    assert len(result["citations"]) == 1
-    assert result["citations"][0]["source_id"] == "S1"
-    assert result["citations"][0]["chunk_id"] == "document-123-0"
-
-
-@pytest.mark.asyncio
-async def test_roman_urdu_answer(sample_chunks):
-    """Verify a Roman Urdu response can be returned with citations."""
-    fake_llm = FakeLLM(
-        json.dumps({
-            "answer": "Employees ko 20 annual leave days milte hain.",
-            "citations": ["S1"]
-        })
-    )
-
-    service = GenerationService(fake_llm.generate)
-
-    result = await service.generate_answer(
-        "Employees ko kitni annual leaves milti hain?",
-        sample_chunks
-    )
-
-    assert "20 annual leave days" in result["answer"]
-    assert result["citations"][0]["source_id"] == "S1"
-
-
-@pytest.mark.asyncio
-async def test_empty_context_refusal():
-    """The service must refuse without calling the LLM."""
-    fake_llm = FakeLLM("{}")
-    service = GenerationService(fake_llm.generate)
-
-    result = await service.generate_answer(
-        "What is the company policy?",
-        []
-    )
-
-    assert result["citations"] == []
-    assert result["retrieved_count"] == 0
-    assert result["answer"] == GenerationService.REFUSAL_MESSAGE
-    assert fake_llm.call_count == 0
-
-
-@pytest.mark.asyncio
-async def test_unanswerable_question(sample_chunks):
-    """The LLM can explicitly report insufficient context."""
-    fake_llm = FakeLLM(
-        json.dumps({
-            "answer": "INSUFFICIENT_CONTEXT",
-            "citations": []
-        })
-    )
-
-    service = GenerationService(fake_llm.generate)
-
-    result = await service.generate_answer(
-        "What is the CEO's personal phone number?",
-        sample_chunks
-    )
-
-    assert result["answer"] == GenerationService.REFUSAL_MESSAGE
-    assert result["citations"] == []
-
-
-@pytest.mark.asyncio
-async def test_fake_citation_rejected(sample_chunks):
-    """An invented source ID must never be accepted."""
-    fake_llm = FakeLLM(
-        json.dumps({
-            "answer": "Employees receive 20 leave days.",
-            "citations": ["S999"]
-        })
-    )
-
-    service = GenerationService(fake_llm.generate)
-
-    with pytest.raises(ValueError, match="invalid citation"):
-        await service.generate_answer(
+    @pytest.mark.parametrize(
+        "question",
+        [
             "What is the annual leave policy?",
-            sample_chunks
+            "How many days of leave are allowed?",
+            "What is the company resignation policy?",
+        ],
+    )
+    def test_english_detection(self, question):
+        assert (
+            GenerationService.detect_question_language(question)
+            == "english"
+        )
+
+    @pytest.mark.parametrize(
+        "question",
+        [
+            "Employees ko kitni leaves milti hain?",
+            "Mujhe policy batao.",
+            "Resignation ka notice kitna hoga?",
+            "Kya maternity leave allowed hai?",
+        ],
+    )
+    def test_roman_urdu_detection(self, question):
+        assert (
+            GenerationService.detect_question_language(question)
+            == "roman_urdu"
         )
 
 
-@pytest.mark.asyncio
-async def test_invalid_llm_json_rejected(sample_chunks):
-    """Invalid JSON responses must raise a controlled error."""
-    fake_llm = FakeLLM("This is not valid JSON")
+class TestMultilingualAnswers:
+    """Verify language instructions and grounded answers."""
 
-    service = GenerationService(fake_llm.generate)
+    @pytest.mark.asyncio
+    async def test_valid_english_answer(self, sample_chunks):
+        fake_llm = FakeLLM(
+            json.dumps({
+                "answer": "Employees receive 20 annual leave days.",
+                "citations": ["S1"],
+            })
+        )
 
-    with pytest.raises(ValueError, match="invalid JSON"):
+        service = GenerationService(fake_llm.generate)
+
+        result = await service.generate_answer(
+            "How many annual leave days are allowed?",
+            sample_chunks,
+        )
+
+        assert result["answer"] == (
+            "Employees receive 20 annual leave days."
+        )
+        assert result["retrieved_count"] == 1
+        assert len(result["citations"]) == 1
+        assert result["citations"][0]["source_id"] == "S1"
+        assert result["citations"][0]["chunk_id"] == (
+            "document-123-0"
+        )
+        assert fake_llm.call_count == 1
+
+        user_prompt = fake_llm.last_messages[1]["content"]
+        assert "Respond in English" in user_prompt
+
+    @pytest.mark.asyncio
+    async def test_roman_urdu_answer(self, sample_chunks):
+        fake_llm = FakeLLM(
+            json.dumps({
+                "answer": (
+                    "Employees ko 20 annual leave days milte hain."
+                ),
+                "citations": ["S1"],
+            })
+        )
+
+        service = GenerationService(fake_llm.generate)
+
+        result = await service.generate_answer(
+            "Employees ko kitni annual leaves milti hain?",
+            sample_chunks,
+        )
+
+        assert "20 annual leave days" in result["answer"]
+        assert result["citations"][0]["source_id"] == "S1"
+        assert result["retrieved_count"] == 1
+
+        user_prompt = fake_llm.last_messages[1]["content"]
+        assert "Respond in natural Roman Urdu" in user_prompt
+
+    @pytest.mark.asyncio
+    async def test_source_context_preserved(self, sample_chunks):
+        fake_llm = FakeLLM(
+            json.dumps({
+                "answer": "20 working days.",
+                "citations": ["S1"],
+            })
+        )
+
+        service = GenerationService(fake_llm.generate)
+
         await service.generate_answer(
-            "What is the leave policy?",
-            sample_chunks
+            "What is the leave entitlement?",
+            sample_chunks,
+        )
+
+        user_prompt = fake_llm.last_messages[1]["content"]
+
+        assert "<untrusted_document_context>" in user_prompt
+        assert "policy.pdf" in user_prompt
+        assert "Employees receive 20 annual leave days." in (
+            user_prompt
         )
 
 
-@pytest.mark.asyncio
-async def test_empty_question_rejected(sample_chunks):
-    """Empty questions must fail validation."""
-    fake_llm = FakeLLM("{}")
-    service = GenerationService(fake_llm.generate)
+class TestMultilingualRefusals:
+    """Verify refusals use the user's detected language."""
 
-    with pytest.raises(ValueError, match="Question cannot be empty"):
-        await service.generate_answer("   ", sample_chunks)
+    @pytest.mark.asyncio
+    async def test_empty_context_english_refusal(self):
+        fake_llm = FakeLLM("{}")
+        service = GenerationService(fake_llm.generate)
 
-    assert fake_llm.call_count == 0
+        result = await service.generate_answer(
+            "What is the company policy?",
+            [],
+        )
+
+        assert result["answer"] == (
+            GenerationService.REFUSAL_MESSAGE
+        )
+        assert result["citations"] == []
+        assert result["retrieved_count"] == 0
+        assert fake_llm.call_count == 0
+
+    @pytest.mark.asyncio
+    async def test_empty_context_roman_urdu_refusal(self):
+        fake_llm = FakeLLM("{}")
+        service = GenerationService(fake_llm.generate)
+
+        result = await service.generate_answer(
+            "Company ki policy kya hai?",
+            [],
+        )
+
+        assert result["answer"] == (
+            GenerationService.ROMAN_URDU_REFUSAL_MESSAGE
+        )
+        assert result["citations"] == []
+        assert result["retrieved_count"] == 0
+        assert fake_llm.call_count == 0
+
+    @pytest.mark.asyncio
+    async def test_llm_english_insufficient_context(
+        self,
+        sample_chunks,
+    ):
+        fake_llm = FakeLLM(
+            json.dumps({
+                "answer": "INSUFFICIENT_CONTEXT",
+                "citations": [],
+            })
+        )
+
+        service = GenerationService(fake_llm.generate)
+
+        result = await service.generate_answer(
+            "What is the CEO's personal phone number?",
+            sample_chunks,
+        )
+
+        assert result["answer"] == (
+            GenerationService.REFUSAL_MESSAGE
+        )
+        assert result["citations"] == []
+        assert result["retrieved_count"] == 1
+
+    @pytest.mark.asyncio
+    async def test_llm_roman_urdu_insufficient_context(
+        self,
+        sample_chunks,
+    ):
+        fake_llm = FakeLLM(
+            json.dumps({
+                "answer": "INSUFFICIENT_CONTEXT",
+                "citations": [],
+            })
+        )
+
+        service = GenerationService(fake_llm.generate)
+
+        result = await service.generate_answer(
+            "CEO ka personal number kya hai?",
+            sample_chunks,
+        )
+
+        assert result["answer"] == (
+            GenerationService.ROMAN_URDU_REFUSAL_MESSAGE
+        )
+        assert result["citations"] == []
+        assert result["retrieved_count"] == 1
+
+
+class TestGenerationValidation:
+    """Preserve existing citation and response validation."""
+
+    @pytest.mark.asyncio
+    async def test_fake_citation_rejected(self, sample_chunks):
+        fake_llm = FakeLLM(
+            json.dumps({
+                "answer": "Employees receive 20 leave days.",
+                "citations": ["S999"],
+            })
+        )
+
+        service = GenerationService(fake_llm.generate)
+
+        with pytest.raises(ValueError, match="invalid citation"):
+            await service.generate_answer(
+                "What is the annual leave policy?",
+                sample_chunks,
+            )
+
+    @pytest.mark.asyncio
+    async def test_duplicate_citation_removed(self, sample_chunks):
+        fake_llm = FakeLLM(
+            json.dumps({
+                "answer": "20 annual leave days.",
+                "citations": ["S1", "S1"],
+            })
+        )
+
+        service = GenerationService(fake_llm.generate)
+
+        result = await service.generate_answer(
+            "What is the annual leave policy?",
+            sample_chunks,
+        )
+
+        assert len(result["citations"]) == 1
+        assert result["citations"][0]["source_id"] == "S1"
+
+    @pytest.mark.asyncio
+    async def test_invalid_llm_json_rejected(self, sample_chunks):
+        fake_llm = FakeLLM("This is not valid JSON")
+        service = GenerationService(fake_llm.generate)
+
+        with pytest.raises(ValueError, match="invalid JSON"):
+            await service.generate_answer(
+                "What is the leave policy?",
+                sample_chunks,
+            )
+
+    @pytest.mark.asyncio
+    async def test_empty_question_rejected(self, sample_chunks):
+        fake_llm = FakeLLM("{}")
+        service = GenerationService(fake_llm.generate)
+
+        with pytest.raises(
+            ValueError,
+            match="Question cannot be empty",
+        ):
+            await service.generate_answer("   ", sample_chunks)
+
+        assert fake_llm.call_count == 0
