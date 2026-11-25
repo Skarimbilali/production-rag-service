@@ -1,0 +1,1375 @@
+{
+  "summary": {
+    "timestamp_utc": "2026-11-25T08:09:07.571650+00:00",
+    "configuration": {
+      "top_k": 5,
+      "threshold": 0.0,
+      "db_path": "data/chroma_db",
+      "expected_filename": "RAG_Project_Steps_Roman_Urdu.pdf",
+      "embedding_model": "intfloat/multilingual-e5-small"
+    },
+    "indexed_document_names": [
+      "RAG_Project_Steps_Roman_Urdu.pdf",
+      "TechNova_HR_Policy_Manual.pdf"
+    ],
+    "total_questions": 25,
+    "answerable_questions": 20,
+    "unanswerable_questions": 5,
+    "semantic_only": {
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.975,
+      "mrr_at_k": 0.7958
+    },
+    "hybrid": {
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "mrr_at_k": 0.875
+    },
+    "hybrid_minus_semantic": {
+      "hit_at_k": 0.0,
+      "recall_at_k": 0.025,
+      "mrr_at_k": 0.0792
+    },
+    "limitations": [
+      "Original positional labels may have changed after Phase 2 smart chunking.",
+      "Position existence is not independent evidence relevance validation.",
+      "The golden set contains questions labelled for one expected source document.",
+      "Unanswerable answer-generation accuracy is not measured by this retrieval script.",
+      "Historical baseline figures are not automatically reused."
+    ]
+  },
+  "questions": [
+    {
+      "id": "Q001",
+      "method": "semantic_only",
+      "question": "RAG project ka sab se pehla step kya hai?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        0,
+        4,
+        3,
+        5,
+        6
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q001",
+      "method": "hybrid",
+      "question": "RAG project ka sab se pehla step kya hai?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        0,
+        4,
+        3,
+        6,
+        1
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q002",
+      "method": "semantic_only",
+      "question": "RAG project ka overall workflow kis order mein diya gaya hai?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        3,
+        4,
+        0,
+        6,
+        2
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333
+    },
+    {
+      "id": "Q002",
+      "method": "hybrid",
+      "question": "RAG project ka overall workflow kis order mein diya gaya hai?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        0,
+        4,
+        2,
+        3,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q003",
+      "method": "semantic_only",
+      "question": "What folders should be created during initial project setup?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        6,
+        5,
+        1,
+        0,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.25
+    },
+    {
+      "id": "Q003",
+      "method": "hybrid",
+      "question": "What folders should be created during initial project setup?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        0,
+        2,
+        3,
+        24,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q004",
+      "method": "semantic_only",
+      "question": "Har project step ke baad kya save karna chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        6,
+        0,
+        4,
+        5,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q004",
+      "method": "hybrid",
+      "question": "Har project step ke baad kya save karna chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        0
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        0,
+        2,
+        3,
+        4,
+        1
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q005",
+      "method": "semantic_only",
+      "question": "Setup step mein vector database ko kis tool se chalane ka kaha gaya hai?",
+      "answerable": true,
+      "expected_positions": [
+        0,
+        1
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        6,
+        1,
+        3,
+        5,
+        2
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 0.5,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q005",
+      "method": "hybrid",
+      "question": "Setup step mein vector database ko kis tool se chalane ka kaha gaya hai?",
+      "answerable": true,
+      "expected_positions": [
+        0,
+        1
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        0,
+        6,
+        1,
+        3,
+        5
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q006",
+      "method": "semantic_only",
+      "question": "Document ke mutabiq embeddings ke liye konsa model use karna hai?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        1,
+        6,
+        5,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q006",
+      "method": "hybrid",
+      "question": "Document ke mutabiq embeddings ke liye konsa model use karna hai?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        1,
+        3,
+        0,
+        24
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q007",
+      "method": "semantic_only",
+      "question": "Document ke mutabiq embeddings kis vector database mein store karni hain?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        1,
+        6,
+        5,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q007",
+      "method": "hybrid",
+      "question": "Document ke mutabiq embeddings kis vector database mein store karni hain?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        1,
+        2,
+        3,
+        0,
+        6
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q008",
+      "method": "semantic_only",
+      "question": "Har document chunk ke saath konsi metadata fields rakhni hain?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        1,
+        4,
+        3,
+        5
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q008",
+      "method": "hybrid",
+      "question": "Har document chunk ke saath konsi metadata fields rakhni hain?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q009",
+      "method": "semantic_only",
+      "question": "Which retrieval methods does the document suggest comparing?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        3,
+        1,
+        5,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q009",
+      "method": "hybrid",
+      "question": "Which retrieval methods does the document suggest comparing?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        3,
+        1,
+        0,
+        5
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q010",
+      "method": "semantic_only",
+      "question": "RAG project mein retrieval evaluation ke liye kaunse metrics use karne hain?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        3,
+        4,
+        2,
+        0,
+        6
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.3333333333333333
+    },
+    {
+      "id": "Q010",
+      "method": "hybrid",
+      "question": "RAG project mein retrieval evaluation ke liye kaunse metrics use karne hain?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "TechNova_HR_Policy_Manual.pdf"
+      ],
+      "retrieved_positions": [
+        0,
+        2,
+        4,
+        19,
+        25
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q011",
+      "method": "semantic_only",
+      "question": "Agar relevant document chunks na milen to chatbot ko kya jawab dena chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        4,
+        1,
+        5,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q011",
+      "method": "hybrid",
+      "question": "Agar relevant document chunks na milen to chatbot ko kya jawab dena chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        4,
+        1,
+        3,
+        0
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q012",
+      "method": "semantic_only",
+      "question": "Document ke mutabiq LLM answers mein citations ka format kya hona chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        3,
+        1,
+        5,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q012",
+      "method": "hybrid",
+      "question": "Document ke mutabiq LLM answers mein citations ka format kya hona chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        2
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        3,
+        1,
+        4,
+        0
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q013",
+      "method": "semantic_only",
+      "question": "Answer evaluation ke liye RAGAS ke kaunse metrics mention hain?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        3,
+        4,
+        2,
+        6,
+        0
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q013",
+      "method": "hybrid",
+      "question": "Answer evaluation ke liye RAGAS ke kaunse metrics mention hain?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        3,
+        0,
+        4,
+        6
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q014",
+      "method": "semantic_only",
+      "question": "LLM judge ko kitne hand-labeled answers se check karna hai?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        3,
+        2,
+        4,
+        5,
+        6
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q014",
+      "method": "hybrid",
+      "question": "LLM judge ko kitne hand-labeled answers se check karna hai?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        3,
+        2,
+        0,
+        4,
+        1
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q015",
+      "method": "semantic_only",
+      "question": "Experiments mein chunk size aur top-k ki konsi values compare karni hain?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        6,
+        3,
+        2,
+        5,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q015",
+      "method": "hybrid",
+      "question": "Experiments mein chunk size aur top-k ki konsi values compare karni hain?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        3,
+        6,
+        2,
+        5,
+        1
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q016",
+      "method": "semantic_only",
+      "question": "Guardrails evaluation ke liye kitne injection aur jailbreak prompts banane hain?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        3,
+        6,
+        5,
+        2,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q016",
+      "method": "hybrid",
+      "question": "Guardrails evaluation ke liye kitne injection aur jailbreak prompts banane hain?",
+      "answerable": true,
+      "expected_positions": [
+        3
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        3,
+        2,
+        4,
+        0,
+        6
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q017",
+      "method": "semantic_only",
+      "question": "FastAPI backend mein kaunse main endpoints banane hain?",
+      "answerable": true,
+      "expected_positions": [
+        4
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        4,
+        1,
+        5,
+        3,
+        2
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q017",
+      "method": "hybrid",
+      "question": "FastAPI backend mein kaunse main endpoints banane hain?",
+      "answerable": true,
+      "expected_positions": [
+        4
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        4,
+        0,
+        1,
+        5,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q018",
+      "method": "semantic_only",
+      "question": "Frontend ke Retrieved Chunks panel mein kya information show honi chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        4
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        4,
+        2,
+        6,
+        3,
+        1
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q018",
+      "method": "hybrid",
+      "question": "Frontend ke Retrieved Chunks panel mein kya information show honi chahiye?",
+      "answerable": true,
+      "expected_positions": [
+        4
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "TechNova_HR_Policy_Manual.pdf"
+      ],
+      "retrieved_positions": [
+        4,
+        2,
+        0,
+        19,
+        20
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q019",
+      "method": "semantic_only",
+      "question": "Langfuse mein har query ke liye konsi information trace karni hai?",
+      "answerable": true,
+      "expected_positions": [
+        4
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        5,
+        4,
+        1,
+        2,
+        3
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q019",
+      "method": "hybrid",
+      "question": "Langfuse mein har query ke liye konsi information trace karni hai?",
+      "answerable": true,
+      "expected_positions": [
+        4
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        4,
+        2,
+        5,
+        1,
+        0
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q020",
+      "method": "semantic_only",
+      "question": "Document mein 512/80 chunk configuration ko final rakhne ke baare mein kya kaha gaya hai?",
+      "answerable": true,
+      "expected_positions": [
+        6
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        6,
+        2,
+        3,
+        1,
+        4
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0
+    },
+    {
+      "id": "Q020",
+      "method": "hybrid",
+      "question": "Document mein 512/80 chunk configuration ko final rakhne ke baare mein kya kaha gaya hai?",
+      "answerable": true,
+      "expected_positions": [
+        6
+      ],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf"
+      ],
+      "retrieved_positions": [
+        1,
+        6,
+        3,
+        2,
+        19
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": 1.0,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5
+    },
+    {
+      "id": "Q021",
+      "method": "semantic_only",
+      "question": "What is the administrator password of the project?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        5,
+        30,
+        1,
+        4,
+        0
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q021",
+      "method": "hybrid",
+      "question": "What is the administrator password of the project?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        4,
+        0,
+        2,
+        3,
+        5
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q022",
+      "method": "semantic_only",
+      "question": "Project ke creator ka personal phone number kya hai?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        6,
+        4,
+        0,
+        5,
+        2
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q022",
+      "method": "hybrid",
+      "question": "Project ke creator ka personal phone number kya hai?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf"
+      ],
+      "retrieved_positions": [
+        2,
+        1,
+        4,
+        0,
+        29
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q023",
+      "method": "semantic_only",
+      "question": "What is the secret production API key?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf"
+      ],
+      "retrieved_positions": [
+        5,
+        1,
+        4,
+        6,
+        30
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q023",
+      "method": "hybrid",
+      "question": "What is the secret production API key?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        5,
+        1,
+        4,
+        0,
+        6
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q024",
+      "method": "semantic_only",
+      "question": "RAG project ka exact monthly cloud hosting bill kitna hai?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        4,
+        0,
+        3,
+        5,
+        2
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q024",
+      "method": "hybrid",
+      "question": "RAG project ka exact monthly cloud hosting bill kitna hai?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "TechNova_HR_Policy_Manual.pdf"
+      ],
+      "retrieved_positions": [
+        4,
+        0,
+        25,
+        3,
+        30
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q025",
+      "method": "semantic_only",
+      "question": "Project ka production server IP address kya hai?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        5,
+        6,
+        1,
+        4,
+        0
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    },
+    {
+      "id": "Q025",
+      "method": "hybrid",
+      "question": "Project ka production server IP address kya hai?",
+      "answerable": false,
+      "expected_positions": [],
+      "retrieved_sources": [
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "TechNova_HR_Policy_Manual.pdf",
+        "RAG_Project_Steps_Roman_Urdu.pdf"
+      ],
+      "retrieved_positions": [
+        4,
+        0,
+        2,
+        3,
+        5
+      ],
+      "retrieved_count": 5,
+      "hit_at_k": null,
+      "recall_at_k": null,
+      "reciprocal_rank": null
+    }
+  ]
+}
