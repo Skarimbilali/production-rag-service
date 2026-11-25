@@ -258,7 +258,7 @@ Runtime dependencies are recorded in
 
 Potential future work includes:
 
-- Hybrid retrieval and reranking
+- Further hybrid retrieval optimization and benchmarking
 - Larger human-annotated evaluation dataset
 - Retrieval quality monitoring
 - Better prompt-injection defenses
@@ -272,3 +272,77 @@ Potential future work includes:
 - `AI_USAGE.md` — AI-assistance disclosure
 - `DEVELOPMENT_LOG.md` — Development history
 - `evals/` — Evaluation scripts and results
+
+## 15. Phase 2 - Multi-Document Retrieval Diagnosis
+
+### Problem Identified
+
+Initially, the system answered questions correctly when
+one PDF was uploaded.
+
+After uploading a second PDF, the system continued
+answering questions from the first document but failed
+to answer some questions from the second document.
+
+Both documents were indexed successfully.
+
+### Root Cause
+
+Analysis of the retrieved chunks revealed that semantic
+search sometimes ranked chunks from the less relevant
+PDF above the correct evidence.
+
+As a result, the final Top-K context did not always
+contain the information required to answer the question.
+
+This caused incorrect refusals even when the answer
+existed in an uploaded document.
+
+### Solution Implemented
+
+1. Paragraph- and sentence-aware smart chunking.
+2. Dynamic filename, page and section metadata.
+3. Improved PDF heading and table extraction.
+4. Hybrid semantic and keyword-based reranking.
+5. Improved conditional reasoning and grounded generation.
+
+### Updated Retrieval Flow
+
+User Question
+  -> Input Guardrails
+  -> E5 Query Embedding
+  -> ChromaDB Semantic Candidate Retrieval
+  -> Keyword Relevance + Hybrid Reranking
+  -> Top-K Relevant Chunks Across Uploaded PDFs
+  -> Groq LLM
+  -> Citation Validation
+  -> Answer or Refusal
+
+### Live Verification
+
+- Promotion eligibility questions improved.
+- Probation resignation notice questions improved.
+- International hotel-limit hallucination was corrected.
+
+### Design Trade-offs
+
+Hybrid reranking improves retrieval relevance for
+keyword-sensitive questions but introduces additional
+computation and latency.
+
+Keyword matching may perform imperfectly across
+languages, synonyms and Roman Urdu variations.
+
+The solution does not guarantee perfect retrieval
+accuracy across arbitrary documents.
+
+### Evaluation Limitations
+
+The earlier golden-set metrics were measured before
+the final Phase 2 hybrid retrieval improvements.
+
+Live tests demonstrate observed improvements, not
+a statistically verified accuracy improvement.
+
+A controlled baseline-versus-hybrid benchmark is
+still required.
