@@ -3,6 +3,7 @@
 Production RAG Service - FastAPI application.
 
 Features:
+- JWT authentication and session management
 - Document upload, listing and deletion
 - Document-grounded question answering
 - HTML/CSS/JavaScript frontend
@@ -22,6 +23,7 @@ from app.config import settings
 from app.schemas import HealthResponse
 from app.api.documents import router as documents_router
 from app.api.questions import router as questions_router
+from app.auth.router import router as auth_router
 from app.core.logger import AppLogger
 from app.core.monitoring import monitoring_service
 
@@ -95,6 +97,8 @@ async def serve_frontend():
     )
 
 
+# Register API routers.
+app.include_router(auth_router)
 app.include_router(documents_router)
 app.include_router(questions_router)
 
@@ -123,19 +127,8 @@ async def get_metrics() -> dict:
     """
     Return in-memory monitoring statistics.
 
-    Includes:
-    - Application uptime
-    - Total HTTP requests
-    - Successful and failed requests
-    - HTTP status code counts
-    - Average HTTP response duration
-    - Average RAG retrieval duration
-    - Average LLM generation duration
-
     Metrics reset when the application restarts.
 
-    This endpoint is intended for development and demo
-    environments. Protect it with authentication or
-    network restrictions before public deployment.
+    Protect this endpoint before public deployment.
     """
     return monitoring_service.get_metrics()

@@ -1,4 +1,15 @@
 
+"""
+ChromaDB vector storage with user-wise document isolation.
+
+Features:
+- Persistent ChromaDB
+- Secure user-scoped document storage
+- Semantic + keyword hybrid retrieval
+- User-scoped search and deletion
+- Legacy document isolation
+"""
+
 import math
 import re
 from collections import Counter
@@ -15,22 +26,9 @@ logger = AppLogger.get_logger(__name__)
 
 
 class VectorStoreService:
-    """
-    Store document vectors and perform generic hybrid retrieval.
-
-    Hybrid retrieval combines:
-        1. Semantic similarity from ChromaDB.
-        2. Keyword relevance from retrieved candidate chunks.
-
-    No document names, subjects or answers are hardcoded.
-    """
-
     COLLECTION_NAME = "rag_documents"
-
-    # Retrieve a wider candidate pool before reranking.
     CANDIDATE_POOL_SIZE = 80
 
-    # Generic query stopwords, not document-specific keywords.
     STOPWORDS = {
         "a", "an", "and", "are", "as", "at", "be", "by",
         "can", "could", "do", "does", "for", "from",
@@ -39,23 +37,18 @@ class VectorStoreService:
         "their", "there", "this", "to", "was", "were",
         "what", "when", "where", "which", "who",
         "will", "with", "would", "you", "your",
-
-        # Common Roman Urdu question words.
         "aur", "hai", "hain", "ho", "hoga", "hogi",
         "ka", "ke", "ki", "ko", "kya", "kitna",
         "kitni", "mein", "me", "mujhe", "ne",
         "nahi", "par", "pe", "se", "to", "wala",
-        "wale", "wali", "ye", "wo"
+        "wale", "wali", "ye", "wo",
     }
 
     def __init__(self, db_path: str = "data/chroma_db"):
-        """
-        Initialize persistent ChromaDB with cosine distance.
-        """
         try:
             Path(db_path).mkdir(
                 parents=True,
-                exist_ok=True
+                exist_ok=True,
             )
 
             self.client = chromadb.PersistentClient(
@@ -67,7 +60,7 @@ class VectorStoreService:
                     name=self.COLLECTION_NAME,
                     configuration={
                         "hnsw": {"space": "cosine"}
-                    }
+                    },
                 )
             )
 
@@ -81,13 +74,32 @@ class VectorStoreService:
             )
             raise
 
+    @staticmethod
+    def _validate_user_id(user_id: str) -> str:
+        """Reject requests without a valid user ID."""
+        if (
+            not isinstance(user_id, str)
+            or not user_id.strip()
+        ):
+            raise ValueError(
+                "A valid user_id is required"
+            )
+
+        return user_id
+
     def add_chunks(
         self,
-        chunks: list[dict[str, Any]]
+        chunks: list[dict[str, Any]],
+        user_id: str,
     ) -> int:
         """
-        Store chunks, embeddings and metadata.
+        Store document chunks for one authenticated user.
+
+        The trusted user ID overrides any user_id supplied
+        inside document metadata.
         """
+        user_id = self._validate_user_id(user_id)
+
         if not chunks:
             logger.warning(
                 "Empty chunk list received"
@@ -107,27 +119,34 @@ class VectorStoreService:
 
             metadatas = [
                 {
-                    key: value
-                    for key, value in chunk["metadata"].items()
-                    if value is not None
+                    **{
+                        key: value
+                        for key, value
+                        in chunk["metadata"].items()
+                        if value is not None
+                        and key != "user_id"
+                    },
+                    "user_id": user_id,
                 }
                 for chunk in chunks
             ]
 
             embeddings = (
-                EmbeddingService.embed_documents(texts)
+                EmbeddingService.embed_documents(
+                    texts
+                )
             )
 
             self.collection.upsert(
                 ids=ids,
                 documents=texts,
                 embeddings=embeddings,
-                metadatas=metadatas
+                metadatas=metadatas,
             )
 
             logger.info(
                 "Stored %d chunks successfully",
-                len(chunks)
+                len(chunks),
             )
 
             return len(chunks)
@@ -139,17 +158,15 @@ class VectorStoreService:
             raise
 
     @classmethod
-    def _tokenize(cls, text: str) -> list[str]:
-        """
-        Extract searchable English/Roman Urdu terms.
-
-        Keeps letters and numbers from Unicode text.
-        Removes only common question/filler words.
-        """
+    def _tokenize(
+        cls,
+        text: str,
+    ) -> list[str]:
+        """Extract English and Roman Urdu search terms."""
         words = re.findall(
             r"[^\W_]+",
             text.lower(),
-            flags=re.UNICODE
+            flags=re.UNICODE,
         )
 
         return [
@@ -163,16 +180,9 @@ class VectorStoreService:
     def _keyword_scores(
         cls,
         question: str,
-        chunks: list[dict[str, Any]]
+        chunks: list[dict[str, Any]],
     ) -> list[float]:
-        """
-        Calculate keyword relevance within the candidate pool.
-
-        Rare matching terms receive higher weight.
-        Query terms are not tied to any particular topic.
-
-        Returns scores between 0 and 1.
-        """
+        """Calculate keyword relevance using IDF weights."""
         question_terms = set(
             cls._tokenize(question)
         )
@@ -187,7 +197,7 @@ class VectorStoreService:
 
             searchable_text = " ".join([
                 str(chunk.get("text") or ""),
-                str(metadata.get("section") or "")
+                str(metadata.get("section") or ""),
             ])
 
             document_terms.append(
@@ -196,7 +206,6 @@ class VectorStoreService:
 
         total_documents = len(document_terms)
 
-        # Number of candidate chunks containing each term.
         document_frequency = Counter()
 
         for terms in document_terms:
@@ -204,7 +213,6 @@ class VectorStoreService:
                 terms.intersection(question_terms)
             )
 
-        # IDF gives rarer matching terms more weight.
         term_weights = {
             term: math.log(
                 1.0
@@ -239,10 +247,15 @@ class VectorStoreService:
                 for term in matched_terms
             )
 
-            score = matching_weight / total_weight
+            score = (
+                matching_weight / total_weight
+            )
 
             scores.append(
-                max(0.0, min(1.0, score))
+                max(
+                    0.0,
+                    min(1.0, score),
+                )
             )
 
         return scores
@@ -252,29 +265,25 @@ class VectorStoreService:
         cls,
         question: str,
         chunks: list[dict[str, Any]],
-        top_k: int
+        top_k: int,
     ) -> list[dict[str, Any]]:
         """
-        Rerank semantic candidates using keyword coverage.
-
-        Semantic similarity remains unchanged in the
-        public response.
-
-        The combined score is used only for ranking.
+        Hybrid reranking:
+        50% semantic similarity + 50% keyword relevance.
         """
         if not chunks:
             return []
 
         keyword_scores = cls._keyword_scores(
             question,
-            chunks
+            chunks,
         )
 
         ranked_chunks = []
 
         for chunk, keyword_score in zip(
             chunks,
-            keyword_scores
+            keyword_scores,
         ):
             semantic_score = max(
                 0.0,
@@ -282,12 +291,10 @@ class VectorStoreService:
                     1.0,
                     float(
                         chunk["similarity_score"]
-                    )
-                )
+                    ),
+                ),
             )
 
-            # Give keyword evidence meaningful influence
-            # while preserving semantic search.
             combined_score = (
                 0.50 * semantic_score
                 + 0.50 * keyword_score
@@ -299,32 +306,30 @@ class VectorStoreService:
 
         ranked_chunks.sort(
             key=lambda item: item[0],
-            reverse=True
+            reverse=True,
         )
 
         return [
             chunk
-            for _, chunk in ranked_chunks[:top_k]
+            for _, chunk
+            in ranked_chunks[:top_k]
         ]
 
     def search_chunks(
         self,
         question: str,
-        top_k: int = 5
+        top_k: int = 5,
+        user_id: str = "",
     ) -> list[dict[str, Any]]:
         """
-        Search all uploaded documents automatically.
+        Retrieve only the authenticated user's chunks.
 
-        Workflow:
-            1. Embed question.
-            2. Retrieve wider semantic candidate pool.
-            3. Calculate generic keyword relevance.
-            4. Rerank candidates.
-            5. Return the best top_k chunks.
-
-        The original cosine similarity remains available
-        for threshold filtering and frontend display.
+        ChromaDB filters by user_id before semantic search.
         """
+        user_id = self._validate_user_id(
+            user_id
+        )
+
         if (
             not isinstance(question, str)
             or not question.strip()
@@ -343,34 +348,50 @@ class VectorStoreService:
             )
 
         try:
-            total = self.collection.count()
+            matches = self.collection.get(
+                where={
+                    "user_id": user_id
+                },
+                include=[],
+            )
+
+            total = len(
+                matches["ids"]
+            )
 
             if total == 0:
                 logger.info(
-                    "No document chunks available"
+                    "No user document chunks available"
                 )
                 return []
 
             query_embedding = (
-                EmbeddingService.embed_query(question)
+                EmbeddingService.embed_query(
+                    question
+                )
             )
 
             candidate_count = min(
                 total,
                 max(
                     top_k,
-                    self.CANDIDATE_POOL_SIZE
-                )
+                    self.CANDIDATE_POOL_SIZE,
+                ),
             )
 
             results = self.collection.query(
-                query_embeddings=[query_embedding],
+                query_embeddings=[
+                    query_embedding
+                ],
                 n_results=candidate_count,
+                where={
+                    "user_id": user_id
+                },
                 include=[
                     "documents",
                     "metadatas",
-                    "distances"
-                ]
+                    "distances",
+                ],
             )
 
             candidate_chunks = []
@@ -379,12 +400,12 @@ class VectorStoreService:
                 chunk_id,
                 text,
                 metadata,
-                distance
+                distance,
             ) in zip(
                 results["ids"][0],
                 results["documents"][0],
                 results["metadatas"][0],
-                results["distances"][0]
+                results["distances"][0],
             ):
                 similarity = (
                     1.0 - float(distance)
@@ -394,20 +415,20 @@ class VectorStoreService:
                     "id": chunk_id,
                     "text": text,
                     "metadata": metadata or {},
-                    "similarity_score": similarity
+                    "similarity_score": similarity,
                 })
 
             relevant_chunks = self._rerank(
                 question=question,
                 chunks=candidate_chunks,
-                top_k=top_k
+                top_k=top_k,
             )
 
             logger.info(
                 "Hybrid retrieval completed | "
                 "candidates=%d | returned=%d",
                 len(candidate_chunks),
-                len(relevant_chunks)
+                len(relevant_chunks),
             )
 
             return relevant_chunks
@@ -420,12 +441,18 @@ class VectorStoreService:
 
     def delete_document(
         self,
-        document_id: str
+        document_id: str,
+        user_id: str,
     ) -> int:
-        """
-        Delete all chunks belonging to a document.
-        """
-        if not document_id.strip():
+        """Delete only the requesting user's document."""
+        user_id = self._validate_user_id(
+            user_id
+        )
+
+        if (
+            not isinstance(document_id, str)
+            or not document_id.strip()
+        ):
             raise ValueError(
                 "Document ID cannot be empty"
             )
@@ -433,8 +460,15 @@ class VectorStoreService:
         try:
             matches = self.collection.get(
                 where={
-                    "document_id": document_id
-                }
+                    "$and": [
+                        {
+                            "document_id": document_id
+                        },
+                        {
+                            "user_id": user_id
+                        },
+                    ]
+                },
             )
 
             ids = matches["ids"]
@@ -446,7 +480,7 @@ class VectorStoreService:
 
             logger.info(
                 "Deleted %d document chunks",
-                len(ids)
+                len(ids),
             )
 
             return len(ids)
@@ -457,8 +491,22 @@ class VectorStoreService:
             )
             raise
 
-    def count_chunks(self) -> int:
-        """
-        Return total stored chunk count.
-        """
-        return self.collection.count()
+    def count_chunks(
+        self,
+        user_id: str,
+    ) -> int:
+        """Count chunks belonging to one user."""
+        user_id = self._validate_user_id(
+            user_id
+        )
+
+        result = self.collection.get(
+            where={
+                "user_id": user_id
+            },
+            include=[],
+        )
+
+        return len(
+            result["ids"]
+        )

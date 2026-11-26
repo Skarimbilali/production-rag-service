@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     Centralized application configuration.
 
     All secrets are loaded from environment variables.
-    Never hardcode API keys in Python files.
+    Never hardcode API keys or JWT secrets.
     """
 
     # FastAPI application settings
@@ -21,10 +21,22 @@ class Settings(BaseSettings):
     GROQ_TIMEOUT: float = 30.0
     GROQ_MAX_RETRIES: int = 2
 
+    # JWT authentication settings
+    JWT_SECRET_KEY: str = ""
+    JWT_ALGORITHM: str = "HS256"
+    JWT_ACCESS_TOKEN_MINUTES: int = 15
+    JWT_REFRESH_TOKEN_DAYS: int = 7
+
+    # SQLite authentication storage
+    AUTH_DATABASE_PATH: str = "data/auth.db"
+
+    # Session cookie configuration
+    AUTH_COOKIE_SECURE: bool = False
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
-        extra="ignore"
+        extra="ignore",
     )
 
 

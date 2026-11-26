@@ -1,8 +1,10 @@
 
 """
-Document-grounded question answering API.
+JWT-protected document-grounded question answering API.
 
 Features:
+- JWT authentication
+- User-specific document retrieval
 - Input guardrails
 - Semantic + hybrid retrieval
 - Groq answer generation
@@ -13,9 +15,15 @@ Features:
 
 import time
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    status,
+)
 from groq import APIConnectionError, APIStatusError
 
+from app.auth.router import get_current_user
 from app.core.logger import AppLogger
 from app.core.monitoring import monitoring_service
 from app.schemas import QuestionRequest, QuestionResponse
@@ -43,45 +51,51 @@ retrieval_service = RetrievalService(vector_store)
     "/ask",
     response_model=QuestionResponse,
     responses={
+        401: {
+            "description": "Authentication required",
+        },
         400: {
-            "description": "Question rejected by security guardrails",
-            "content": {
-                "application/json": {
-                    "example": {
-                        "detail": "Question violates security rules."
-                    }
-                }
-            },
+            "description": (
+                "Question rejected by security guardrails"
+            ),
         },
         422: {
-            "description": "Invalid request or answer processing error",
+            "description": (
+                "Invalid request or answer processing error"
+            ),
         },
         503: {
-            "description": "LLM provider temporarily unavailable",
+            "description": (
+                "LLM provider temporarily unavailable"
+            ),
         },
     },
 )
 async def ask_question(
     request: QuestionRequest,
+    current_user: dict = Depends(get_current_user),
 ) -> QuestionResponse:
     """
-    Answer an English or Roman Urdu question using RAG.
+    Answer questions using only the authenticated
+    user's indexed documents.
 
-    Retrieval and generation timings are recorded
-    independently and exposed through /metrics.
-
-    Documents, user questions and API credentials are
-    not included in monitoring metrics.
+    User identity comes from the verified JWT.
+    The client cannot select another user's identity.
     """
-    logger.info("Question answering request received")
 
-    # Validate the question before retrieval or generation.
+    user_id = current_user["id"]
+
+    logger.info(
+        "Authenticated question request received"
+    )
+
     try:
         validated_question = (
             GuardrailService.validate_question(
                 request.question
             )
         )
+
     except ValueError as exc:
         logger.warning(
             "Question rejected by input guardrails"
@@ -93,7 +107,7 @@ async def ask_question(
         ) from exc
 
     try:
-        # Step 1: Retrieve document evidence.
+        # Step 1: User-specific document retrieval.
         retrieval_started = time.perf_counter()
 
         try:
@@ -101,10 +115,13 @@ async def ask_question(
                 question=validated_question,
                 top_k=request.top_k,
                 threshold=request.threshold,
+                user_id=user_id,
             )
+
         finally:
             retrieval_ms = (
-                time.perf_counter() - retrieval_started
+                time.perf_counter()
+                - retrieval_started
             ) * 1000
 
             monitoring_service.record_retrieval(
@@ -112,14 +129,18 @@ async def ask_question(
             )
 
             logger.info(
-                "RAG retrieval duration | duration_ms=%.2f",
+                "RAG retrieval duration | "
+                "duration_ms=%.2f",
                 retrieval_ms,
             )
 
-        # No Groq request if the retriever finds no evidence.
+        # Avoid calling Groq when the user's
+        # documents contain no matching evidence.
         if not chunks:
-            refusal = GenerationService.get_refusal_message(
-                validated_question
+            refusal = (
+                GenerationService.get_refusal_message(
+                    validated_question
+                )
             )
 
             return QuestionResponse(
@@ -129,16 +150,20 @@ async def ask_question(
                 retrieved_chunks=[],
             )
 
-        # Step 2: Initialize the Groq client.
+        # Step 2: Initialize the LLM client.
         llm_client = GroqLLMClient()
 
         try:
-            generation_service = GenerationService(
-                llm_client.generate
+            generation_service = (
+                GenerationService(
+                    llm_client.generate
+                )
             )
 
-            # Step 3: Measure generation independently.
-            generation_started = time.perf_counter()
+            # Step 3: Measure generation duration.
+            generation_started = (
+                time.perf_counter()
+            )
 
             try:
                 result = (
@@ -147,9 +172,11 @@ async def ask_question(
                         chunks=chunks,
                     )
                 )
+
             finally:
                 generation_ms = (
-                    time.perf_counter() - generation_started
+                    time.perf_counter()
+                    - generation_started
                 ) * 1000
 
                 monitoring_service.record_generation(
@@ -166,7 +193,7 @@ async def ask_question(
             # Release Groq HTTP connections.
             await llm_client.close()
 
-        # Step 4: Include actual evidence in the API response.
+        # Step 4: Return answer and source evidence.
         return QuestionResponse(
             answer=result["answer"],
             citations=result["citations"],
@@ -175,11 +202,17 @@ async def ask_question(
         )
 
     except APIConnectionError:
-        logger.exception("LLM connection failed")
+        logger.exception(
+            "LLM connection failed"
+        )
 
         raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="LLM service temporarily unavailable.",
+            status_code=(
+                status.HTTP_503_SERVICE_UNAVAILABLE
+            ),
+            detail=(
+                "LLM service temporarily unavailable."
+            ),
         )
 
     except APIStatusError as exc:
@@ -190,7 +223,9 @@ async def ask_question(
 
         raise HTTPException(
             status_code=503,
-            detail="LLM service temporarily unavailable.",
+            detail=(
+                "LLM service temporarily unavailable."
+            ),
         )
 
     except ValueError:
@@ -200,5 +235,7 @@ async def ask_question(
 
         raise HTTPException(
             status_code=422,
-            detail="Unable to process question.",
+            detail=(
+                "Unable to process question."
+            ),
         )

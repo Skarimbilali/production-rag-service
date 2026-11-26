@@ -1,6 +1,23 @@
 
-from fastapi import APIRouter, File, UploadFile, status
+"""
+JWT-protected document management API.
 
+Features:
+- Authenticated PDF/DOCX upload
+- User-specific document listing
+- Secure document deletion
+- User identity extracted from verified JWT
+"""
+
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    UploadFile,
+    status,
+)
+
+from app.auth.router import get_current_user
 from app.core.logger import AppLogger
 from app.ingestion.service import DocumentService
 from app.vector_store.store import VectorStoreService
@@ -8,12 +25,14 @@ from app.vector_store.store import VectorStoreService
 
 logger = AppLogger.get_logger(__name__)
 
+
 router = APIRouter(
     prefix="/documents",
-    tags=["Documents"]
+    tags=["Documents"],
 )
 
-# Share one initialized service across API requests.
+
+# Share initialized services across API requests.
 vector_store = VectorStoreService()
 document_service = DocumentService(vector_store)
 
@@ -21,36 +40,77 @@ document_service = DocumentService(vector_store)
 @router.post(
     "/upload",
     status_code=status.HTTP_201_CREATED,
-    summary="Upload a PDF or DOCX document"
+    summary="Upload a PDF or DOCX document",
+    responses={
+        401: {
+            "description": "Authentication required",
+        },
+        409: {
+            "description": "Duplicate document",
+        },
+    },
 )
 async def upload_document(
-    file: UploadFile = File(...)
+    file: UploadFile = File(...),
+    current_user: dict = Depends(get_current_user),
 ) -> dict:
     """
     Validate, extract, chunk, embed and store a document.
 
-    Returns:
-        Document ID, filename and number of stored chunks.
+    Document ownership is derived from the JWT.
+    The client cannot supply another user's ID.
     """
-    logger.info("Document upload request received")
-    return await document_service.upload_document(file)
+    logger.info(
+        "Authenticated document upload request received"
+    )
+
+    return await document_service.upload_document(
+        file=file,
+        user_id=current_user["id"],
+    )
 
 
 @router.get(
     "",
-    summary="List uploaded documents"
+    summary="List current user's documents",
+    responses={
+        401: {
+            "description": "Authentication required",
+        },
+    },
 )
-def list_documents() -> list[dict]:
-    """List unique documents stored in ChromaDB."""
-    return document_service.list_documents()
+def list_documents(
+    current_user: dict = Depends(get_current_user),
+) -> list[dict]:
+    """List only documents owned by the authenticated user."""
+    return document_service.list_documents(
+        user_id=current_user["id"],
+    )
 
 
 @router.delete(
     "/{document_id}",
     status_code=status.HTTP_204_NO_CONTENT,
-    summary="Delete document and its vectors"
+    summary="Delete current user's document",
+    responses={
+        401: {
+            "description": "Authentication required",
+        },
+        404: {
+            "description": "Document not found or not owned by user",
+        },
+    },
 )
-def delete_document(document_id: str) -> None:
-    """Delete all stored chunks belonging to a document."""
-    document_service.delete_document(document_id)
+def delete_document(
+    document_id: str,
+    current_user: dict = Depends(get_current_user),
+) -> None:
+    """
+    Delete document vectors only when owned by current user.
 
+    Unknown and unowned document IDs both return 404.
+    """
+    document_service.delete_document(
+        document_id=document_id,
+        user_id=current_user["id"],
+    )

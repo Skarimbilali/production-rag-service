@@ -1,4 +1,16 @@
 
+"""
+Secure document ingestion and management.
+
+Features:
+- PDF/DOCX validation and extraction
+- SHA-256 duplicate detection per user
+- Document prompt-injection guardrails
+- Smart chunking and source context
+- User-owned ChromaDB documents
+- User-specific document listing and deletion
+"""
+
 import hashlib
 from pathlib import Path
 from uuid import uuid4
@@ -18,45 +30,67 @@ logger = AppLogger.get_logger(__name__)
 
 class DocumentService:
     """
-    Manage document ingestion and source-aware chunks.
+    Manage document ingestion and storage.
 
-    Responsibilities:
-        - Validate PDF/DOCX uploads
-        - Detect duplicate documents
-        - Extract document text
-        - Apply document-level security guardrails
-        - Create smart chunks with source context
-        - Store embeddings and metadata
-        - List and delete documents
+    All document operations require a trusted user_id.
+    User identity must come from the verified JWT.
     """
 
-    def __init__(self, vector_store: VectorStoreService):
+    def __init__(
+        self,
+        vector_store: VectorStoreService,
+    ):
         self.vector_store = vector_store
 
-    def document_exists(self, file_hash: str) -> bool:
-        """Identify duplicate documents by SHA-256 hash."""
+    @staticmethod
+    def _validate_user_id(user_id: str) -> str:
+        if (
+            not isinstance(user_id, str)
+            or not user_id.strip()
+        ):
+            raise ValueError(
+                "A valid user_id is required"
+            )
+
+        return user_id
+
+    def document_exists(
+        self,
+        file_hash: str,
+        user_id: str,
+    ) -> bool:
+        """
+        Detect duplicates within the same user's documents.
+
+        Two different users may upload the same file.
+        """
+        user_id = self._validate_user_id(user_id)
+
         result = self.vector_store.collection.get(
-            where={"file_hash": file_hash},
+            where={
+                "$and": [
+                    {"file_hash": file_hash},
+                    {"user_id": user_id},
+                ]
+            },
             limit=1,
         )
 
         return bool(result["ids"])
 
     @staticmethod
-    def validate_extracted_sections(sections: list) -> None:
+    def validate_extracted_sections(
+        sections: list,
+    ) -> None:
         """
-        Scan extracted PDF/DOCX sections before indexing.
-
-        Reject the entire upload when a section contains
-        a recognized prompt-injection instruction.
-
-        Raises:
-            HTTPException(400): Empty or unsafe content.
+        Reject empty or unsafe document content.
         """
         if not sections:
             raise HTTPException(
                 status_code=400,
-                detail="Document contains no extractable text.",
+                detail=(
+                    "Document contains no extractable text."
+                ),
             )
 
         checked_sections = 0
@@ -65,13 +99,23 @@ class DocumentService:
             if isinstance(section, dict):
                 text = section.get("text", "")
             else:
-                text = getattr(section, "text", "")
+                text = getattr(
+                    section,
+                    "text",
+                    "",
+                )
 
-            if not isinstance(text, str) or not text.strip():
+            if (
+                not isinstance(text, str)
+                or not text.strip()
+            ):
                 continue
 
             try:
-                GuardrailService.validate_document_text(text)
+                GuardrailService.validate_document_text(
+                    text
+                )
+
             except ValueError as exc:
                 logger.warning(
                     "Document security validation failed"
@@ -87,37 +131,50 @@ class DocumentService:
         if checked_sections == 0:
             raise HTTPException(
                 status_code=400,
-                detail="Document contains no extractable text.",
+                detail=(
+                    "Document contains no extractable text."
+                ),
             )
 
         logger.info(
-            "Document security validation passed | sections=%d",
+            "Document security validation passed | "
+            "sections=%d",
             checked_sections,
         )
 
     @staticmethod
-    def add_source_context(chunks: list[dict]) -> list[dict]:
+    def add_source_context(
+        chunks: list[dict],
+    ) -> list[dict]:
         """
-        Prefix each chunk with its source information.
+        Prefix chunks with filename, page and section.
 
-        The original body is preserved.
+        Preserve original chunk text.
         """
         for chunk in chunks:
             metadata = chunk["metadata"]
 
             filename = str(
-                metadata.get("filename") or "Unknown"
+                metadata.get("filename")
+                or "Unknown"
             )
 
             page = metadata.get("page")
             section = metadata.get("section")
 
-            source_parts = [f"File: {filename}"]
+            source_parts = [
+                f"File: {filename}"
+            ]
 
             if page is not None:
-                source_parts.append(f"Page: {page}")
+                source_parts.append(
+                    f"Page: {page}"
+                )
 
-            if section is not None and str(section).strip():
+            if (
+                section is not None
+                and str(section).strip()
+            ):
                 source_parts.append(
                     f"Section: {str(section).strip()}"
                 )
@@ -128,26 +185,41 @@ class DocumentService:
 
             original_text = chunk["text"]
 
-            if not original_text.startswith(source_header):
+            if not original_text.startswith(
+                source_header
+            ):
                 chunk["text"] = (
-                    f"{source_header}\n{original_text}"
+                    f"{source_header}\n"
+                    f"{original_text}"
                 )
 
         return chunks
 
-    async def upload_document(self, file: UploadFile) -> dict:
+    async def upload_document(
+        self,
+        file: UploadFile,
+        user_id: str,
+    ) -> dict:
         """
-        Validate, scan, chunk, embed and store a document.
+        Validate, chunk and store one user's document.
 
         HTTP 400: Invalid, empty or unsafe document
-        HTTP 409: Duplicate document
+        HTTP 409: Duplicate within the same account
         HTTP 415: Unsupported file type
         """
-        logger.info("Document ingestion started")
+        user_id = self._validate_user_id(
+            user_id
+        )
+
+        logger.info(
+            "Authenticated document ingestion started"
+        )
 
         try:
-            # 1. Validate file.
-            content = await validate_document(file)
+            # 1. Validate uploaded document.
+            content = await validate_document(
+                file
+            )
 
             filename = Path(
                 file.filename or ""
@@ -158,31 +230,38 @@ class DocumentService:
                 content
             ).hexdigest()
 
-            # 3. Reject duplicate uploads.
-            if self.document_exists(file_hash):
+            # 3. Check duplicates only for this user.
+            if self.document_exists(
+                file_hash=file_hash,
+                user_id=user_id,
+            ):
                 logger.warning(
-                    "Duplicate document rejected"
+                    "Duplicate user document rejected"
                 )
 
                 raise HTTPException(
                     status_code=409,
-                    detail="Document already exists.",
+                    detail=(
+                        "Document already exists "
+                        "in your account."
+                    ),
                 )
 
-            # 4. Extract content and metadata.
+            # 4. Extract document content.
             sections = extract_document(
                 filename,
                 content,
             )
 
-            # 5. Apply document-level guardrails BEFORE
-            # creating embeddings or storing vectors.
-            self.validate_extracted_sections(sections)
+            # 5. Apply security guardrails.
+            self.validate_extracted_sections(
+                sections
+            )
 
-            # 6. Generate document identifier.
+            # 6. Generate unique document ID.
             document_id = uuid4()
 
-            # 7. Create smart document chunks.
+            # 7. Generate source-aware chunks.
             chunks = create_chunks(
                 document_id=document_id,
                 filename=filename,
@@ -192,23 +271,35 @@ class DocumentService:
             if not chunks:
                 raise HTTPException(
                     status_code=400,
-                    detail="Document contains no extractable text.",
+                    detail=(
+                        "Document contains no "
+                        "extractable text."
+                    ),
                 )
 
-            # 8. Add dynamic source information.
-            chunks = self.add_source_context(chunks)
-
-            # 9. Attach fingerprint for duplicate detection.
-            for chunk in chunks:
-                chunk["metadata"]["file_hash"] = file_hash
-
-            # 10. Embed and store document chunks.
-            stored_count = self.vector_store.add_chunks(
+            # 8. Preserve source context.
+            chunks = self.add_source_context(
                 chunks
             )
 
+            # 9. Attach document fingerprint.
+            for chunk in chunks:
+                chunk["metadata"]["file_hash"] = (
+                    file_hash
+                )
+
+            # 10. Store under trusted user identity.
+            # VectorStoreService also enforces ownership.
+            stored_count = (
+                self.vector_store.add_chunks(
+                    chunks=chunks,
+                    user_id=user_id,
+                )
+            )
+
             logger.info(
-                "Document ingestion completed: %d chunks",
+                "Document ingestion completed | "
+                "chunks=%d",
                 stored_count,
             )
 
@@ -216,7 +307,9 @@ class DocumentService:
                 "document_id": str(document_id),
                 "filename": filename,
                 "chunk_count": stored_count,
-                "message": "Document uploaded successfully.",
+                "message": (
+                    "Document uploaded successfully."
+                ),
             }
 
         except HTTPException:
@@ -231,10 +324,24 @@ class DocumentService:
         finally:
             await file.close()
 
-    def list_documents(self) -> list[dict]:
-        """Return unique stored documents and chunk counts."""
+    def list_documents(
+        self,
+        user_id: str,
+    ) -> list[dict]:
+        """
+        List only documents owned by this user.
+
+        Legacy documents without user_id are excluded.
+        """
+        user_id = self._validate_user_id(
+            user_id
+        )
+
         result = self.vector_store.collection.get(
-            include=["metadatas"]
+            where={
+                "user_id": user_id
+            },
+            include=["metadatas"],
         )
 
         documents = {}
@@ -243,7 +350,9 @@ class DocumentService:
             if not metadata:
                 continue
 
-            document_id = metadata.get("document_id")
+            document_id = metadata.get(
+                "document_id"
+            )
 
             if not document_id:
                 continue
@@ -251,23 +360,45 @@ class DocumentService:
             if document_id not in documents:
                 documents[document_id] = {
                     "document_id": document_id,
-                    "filename": metadata.get("filename"),
+                    "filename": metadata.get(
+                        "filename"
+                    ),
                     "chunk_count": 0,
                 }
 
-            documents[document_id]["chunk_count"] += 1
+            documents[document_id][
+                "chunk_count"
+            ] += 1
 
         logger.info(
-            "Listed %d documents",
+            "Listed %d user documents",
             len(documents),
         )
 
-        return list(documents.values())
+        return list(
+            documents.values()
+        )
 
-    def delete_document(self, document_id: str) -> None:
-        """Delete vectors for the specified document."""
-        deleted_count = self.vector_store.delete_document(
-            document_id
+    def delete_document(
+        self,
+        document_id: str,
+        user_id: str,
+    ) -> None:
+        """
+        Delete only documents owned by this user.
+
+        Return 404 for missing or unowned documents
+        to avoid revealing another user's resources.
+        """
+        user_id = self._validate_user_id(
+            user_id
+        )
+
+        deleted_count = (
+            self.vector_store.delete_document(
+                document_id=document_id,
+                user_id=user_id,
+            )
         )
 
         if deleted_count == 0:
@@ -277,6 +408,6 @@ class DocumentService:
             )
 
         logger.info(
-            "Deleted document with %d chunks",
+            "Deleted user document | chunks=%d",
             deleted_count,
         )
